@@ -1,24 +1,23 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hive/hive.dart';
 import 'package:qcop/local_database/database_handler.dart';
-import 'package:qcop/resources/resources.dart';
 
-class QALocationScreen extends StatefulWidget {
+import '../../resources/resources.dart';
+
+class WPLocScreen extends StatefulWidget {
 
   late ValueChanged<bool> onChange;
-
-  QALocationScreen({super.key, required this.onChange});
+  WPLocScreen({super.key, required this.onChange});
 
   @override
-  State<QALocationScreen> createState() => _QALocationScreenState();
+  State<WPLocScreen> createState() => _WPLocScreenState();
 }
 
-class _QALocationScreenState extends State<QALocationScreen> {
+class _WPLocScreenState extends State<WPLocScreen> {
 
   late TextEditingController _searchController;
+
   FocusNode _searchNode = FocusNode();
 
   List<Map<String, dynamic>> fieldLists = [
@@ -79,6 +78,8 @@ class _QALocationScreenState extends State<QALocationScreen> {
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,6 +127,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
       ),
     );
   }
+
 
   getSearchFiled() {
     return Container(
@@ -220,22 +222,22 @@ class _QALocationScreenState extends State<QALocationScreen> {
                               return dropdownItems(index)
                                   .map(
                                     (e) => Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        e.value.toString(),
-                                        textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          color: Color(0xFF3C3C3C),
-                                          fontSize: 14,
-                                          fontFamily: 'Poppins Medium',
-                                          fontWeight: FontWeight.w400,
-                                          height: 0,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    e.value.toString(),
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                      color: Color(0xFF3C3C3C),
+                                      fontSize: 14,
+                                      fontFamily: 'Poppins Medium',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
                                     ),
-                                  )
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              )
                                   .toList();
                             },
                             isExpanded: true,
@@ -266,7 +268,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
                                 radius: const Radius.circular(40),
                                 thickness: MaterialStateProperty.all(6),
                                 thumbVisibility:
-                                    MaterialStateProperty.all(true),
+                                MaterialStateProperty.all(true),
                               ),
                             ),
                             menuItemStyleData: const MenuItemStyleData(
@@ -333,11 +335,11 @@ class _QALocationScreenState extends State<QALocationScreen> {
         locations.add(i['selectedValue']);
       }
 
-        await DatabaseHandler().insertLocation(locations[0], locations[1], locations[2], locations[3], locations[4]);
+      await DatabaseHandler().insertLocation(locations[0], locations[1], locations[2], locations[3], locations[4]);
 
-        var locationsList = await DatabaseHandler().getLocations();
+      var locationsList = await DatabaseHandler().getLocations();
 
-        print(locationsList);
+      print(locationsList);
 
     }
 
@@ -356,4 +358,5 @@ class _QALocationScreenState extends State<QALocationScreen> {
 
 
   }
+
 }

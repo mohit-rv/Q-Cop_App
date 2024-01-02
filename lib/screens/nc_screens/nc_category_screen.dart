@@ -1,35 +1,30 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hive/hive.dart';
-import 'package:qcop/local_database/database_handler.dart';
 import 'package:qcop/resources/resources.dart';
 
-class QALocationScreen extends StatefulWidget {
+class NCCategoryScreen extends StatefulWidget {
 
   late ValueChanged<bool> onChange;
-
-  QALocationScreen({super.key, required this.onChange});
+  NCCategoryScreen({super.key, required this.onChange});
 
   @override
-  State<QALocationScreen> createState() => _QALocationScreenState();
+  State<NCCategoryScreen> createState() => _NCCategoryScreenState();
 }
 
-class _QALocationScreenState extends State<QALocationScreen> {
+class _NCCategoryScreenState extends State<NCCategoryScreen> {
 
   late TextEditingController _searchController;
+  late TextEditingController _obgController;
   FocusNode _searchNode = FocusNode();
+  FocusNode _obgNode = FocusNode();
 
   List<Map<String, dynamic>> fieldLists = [
-    {"selectedValue" : "Level 1", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Level 2", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Level 3", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Level 4", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Level 5", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7"]},
+    {"selectedValue" : "Type", "lists" : ["Type", "Level 2", "Level 3", "Level 4", "Level 5"]},
+    {"selectedValue" : "Category", "lists" : ["Category", "Level 2", "Level 3", "Level 4", "Level 5"]},
+    {"selectedValue" : "Check List", "lists" : ["Check List", "Level 2", "Level 3", "Level 4", "Level 5"]},
+    {"selectedValue" : "Check Point", "lists" : ["Check Point", "Level 2", "Level 3", "Level 4", "Level 5"]},
   ];
-
-  var selectedValue = "Select";
 
   List<DropdownMenuItem<String>> dropdownItems(index) {
     List<DropdownMenuItem<String>> menuItems = [];
@@ -70,14 +65,17 @@ class _QALocationScreenState extends State<QALocationScreen> {
   @override
   void initState() {
     _searchController = TextEditingController();
+    _obgController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _obgController.dispose();
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +86,17 @@ class _QALocationScreenState extends State<QALocationScreen> {
         child: Column(
           children: [
             getSearchFiled(),
-            getFieldsList(),
+            getFieldsList(0),
+            getFieldsList(1),
+            getFieldsList(2),
+            getFieldsList(3),
+            getObgField(),
+
+
             InkWell(
               onTap: () {
 
-                saveDataInLocal();
+                //Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => QACheckPointsScreen()));
 
                 widget.onChange(true);
 
@@ -109,7 +113,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
                   ),
                 ),
                 child: Text(
-                  'Next',
+                  'Save',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -120,7 +124,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -182,13 +186,14 @@ class _QALocationScreenState extends State<QALocationScreen> {
     );
   }
 
-  getFieldsList() {
+  getFieldsList(int indexOfField) {
     return Container(
       child: ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: fieldLists.length,
+          itemCount: 1,
           itemBuilder: (context, index) {
+            var index = indexOfField;
             return Container(
               width: MediaQuery.of(context).size.width,
               height: 54,
@@ -220,22 +225,23 @@ class _QALocationScreenState extends State<QALocationScreen> {
                               return dropdownItems(index)
                                   .map(
                                     (e) => Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        e.value.toString(),
-                                        textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          color: Color(0xFF3C3C3C),
-                                          fontSize: 14,
-                                          fontFamily: 'Poppins Medium',
-                                          fontWeight: FontWeight.w400,
-                                          height: 0,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    e.value.toString(),
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                      color: Color(0xFF0C3C89),
+                                      fontSize: 12,
+                                      fontFamily: 'Poppins Medium',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                      letterSpacing: 0.05,
                                     ),
-                                  )
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              )
                                   .toList();
                             },
                             isExpanded: true,
@@ -266,7 +272,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
                                 radius: const Radius.circular(40),
                                 thickness: MaterialStateProperty.all(6),
                                 thumbVisibility:
-                                    MaterialStateProperty.all(true),
+                                MaterialStateProperty.all(true),
                               ),
                             ),
                             menuItemStyleData: const MenuItemStyleData(
@@ -283,12 +289,15 @@ class _QALocationScreenState extends State<QALocationScreen> {
                               ),
                             ),*/
                             //borderRadius: BorderRadius.circular(10),
+                            
                             value: fieldLists[index]['selectedValue'].toString(),
                             items: dropdownItems(index),
                             //alignment: Alignment.center,
                             onChanged: (String? newValue) {
                               setState(() {
                                 fieldLists[index]['selectedValue'] = newValue!;
+                                
+                                
                               });
                             },
                           ),
@@ -303,57 +312,54 @@ class _QALocationScreenState extends State<QALocationScreen> {
     );
   }
 
-  void saveDataInLocal() async {
-
-    var locationsList = await DatabaseHandler().getLocations();
-
-    print(locationsList);
-
-    if (locationsList != null) {
-      List<String> locations = [];
-
-      for (var i in fieldLists) {
-        locations.add(i['selectedValue']);
-      }
-
-      if (locationsList.isEmpty) {
-        await DatabaseHandler().insertLocation(locations[0], locations[1], locations[2], locations[3], locations[4]);
-
-        var locationsList = await DatabaseHandler().getLocations();
-
-        print(locationsList);
-      }
-    } else {
-
-      await DatabaseHandler().createLocationTable(5);
-
-      List<String> locations = [];
-
-      for (var i in fieldLists) {
-        locations.add(i['selectedValue']);
-      }
-
-        await DatabaseHandler().insertLocation(locations[0], locations[1], locations[2], locations[3], locations[4]);
-
-        var locationsList = await DatabaseHandler().getLocations();
-
-        print(locationsList);
-
-    }
-
-    /*await DatabaseHandler().createLocationTable(5);
-
-    List<String> locations = [];
-
-    for (var i in fieldLists) {
-
-      locations.add(i['selectedValue']);
-
-    }*/
-
-    //await DatabaseHandler().insertLocation(locations);
-
-
-
+  getObgField() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 54,
+      margin: EdgeInsets.only(left: 24, right: 24, top: 20),
+      padding: EdgeInsets.only(left: 16, right: 16),
+      alignment: Alignment.center,
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 1, color: Color(0xFF0C3C89)),
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+      child: TextFormField(
+        controller: _obgController,
+        focusNode: _obgNode,
+        onChanged: (text) {
+          //onSearchTextChanged(text);
+        },
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: "Observation",
+          hintStyle:  TextStyle(
+            color: Color(0xFF0C3C89),
+            fontSize: 12,
+            fontFamily: 'Poppins Medium',
+            fontWeight: FontWeight.w500,
+            height: 0,
+            letterSpacing: 0.05,
+          ),
+          counterText: "",
+          isDense: true,
+        ),
+        keyboardType: TextInputType.name,
+        maxLines: 1,
+        enabled: true,
+        //cursorColor: Color(0xFF394A5D),
+        style:  TextStyle(
+          color: Color(0xFF0C3C89),
+          fontSize: 12,
+          fontFamily: 'Poppins Medium',
+          fontWeight: FontWeight.w500,
+          height: 0,
+          letterSpacing: 0.05,
+        ),
+      ),
+    );
   }
+
+
 }

@@ -5,16 +5,17 @@ import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 import 'package:image_editor_plus/image_editor_plus.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:qcop/resources/resources.dart';
 
-class QACheckPointsScreen extends StatefulWidget {
-  const QACheckPointsScreen({super.key});
+import '../../resources/resources.dart';
+
+class MatCheckPointsScreen extends StatefulWidget {
+  const MatCheckPointsScreen({super.key});
 
   @override
-  State<QACheckPointsScreen> createState() => _QACheckPointsScreenState();
+  State<MatCheckPointsScreen> createState() => _MatCheckPointsScreenState();
 }
 
-class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
+class _MatCheckPointsScreenState extends State<MatCheckPointsScreen> {
 
   String photo1 = "";
   String photo2 = "";
@@ -25,11 +26,9 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
 
   final picker = ImagePicker();
 
-  late TextEditingController _makerController;
   late TextEditingController _checkerController;
   late TextEditingController _approverController;
 
-  final FocusNode _makerNode = FocusNode();
   final FocusNode _checkerNode = FocusNode();
   final FocusNode _approverNode = FocusNode();
 
@@ -37,7 +36,6 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
 
   @override
   void initState() {
-    _makerController = TextEditingController();
     _checkerController = TextEditingController();
     _approverController = TextEditingController();
     super.initState();
@@ -45,27 +43,30 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
 
   @override
   void dispose() {
-    _makerController.dispose();
-    _checkerController.dispose();
-    _approverController.dispose();
+    _checkerController = TextEditingController();
+    _approverController = TextEditingController();
+    // TODO: implement dispose
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+    //  backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Column(
+
           children: [
+            SizedBox(height: 50),
             ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 3,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 3,
                 itemBuilder: (context, index) {
-              return getPointsCard(index);
-            }),
+                  return getPointsCard(index);
+                }),
+
             InkWell(
               onTap: () {
 
@@ -122,6 +123,7 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
         child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   height: 30,
@@ -136,7 +138,7 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                   child: Container(
                     margin: EdgeInsets.only(left: 12, right: 12),
                     child: Text(
-                      '${index + 1}/3',
+                      '${index + 1}/5',
                       style: TextStyle(
                         color: Color(0xFF0C3C88),
                         fontSize: 12,
@@ -152,7 +154,7 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                   margin: EdgeInsets.only(top: 15, left: 4),
                   alignment: Alignment.center,
                   decoration: ShapeDecoration(
-                    color: Color(0xFFCACB07),
+                    color: Color(0xFF0C3C88),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(62),
                     ),
@@ -201,7 +203,7 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
             Container(
               margin: EdgeInsets.only(left: 15, right: 15, top: 20),
               child: Text(
-                'Weather the bricks are soaked in water prior to use?',
+                'Check for fineness. is it acceptable',
                 style: TextStyle(
                   color: Color(0xFF242424),
                   fontSize: 15,
@@ -225,19 +227,19 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                       width: MediaQuery.of(context).size.width/3 - 30,
                       height: 102,
                       decoration: ShapeDecoration(
-                        color: Color(0xFFF5F5F5),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        image: photo1.isEmpty ?  DecorationImage(
-                          image: AssetImage(Resources.addPhotoImg),
-                          fit: BoxFit.cover,
-                        ) :
-                        DecorationImage(
-                          image: FileImage(File(photo1)),
-                          fit: BoxFit.cover,
-                        )
+                          color: Color(0xFFF5F5F5),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          image: photo1.isEmpty ?  DecorationImage(
+                            image: AssetImage(Resources.addPhotoImg),
+                            fit: BoxFit.cover,
+                          ) :
+                          DecorationImage(
+                            image: FileImage(File(photo1)),
+                            fit: BoxFit.cover,
+                          )
                       ),
                     ),
                   ),
@@ -378,142 +380,6 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
               ),
             ),
 
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(top: 20, left: 16),
-              child: Text(
-                'Maker',
-                style: TextStyle(
-                  color: Color(0xFF242424),
-                  fontSize: 15,
-                  fontFamily: 'Poppins medium',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),
-            ),
-
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 50,
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 15, right: 15, top: 9),
-              padding: EdgeInsets.only(left: 19, right: 19),
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFFCACED8)),
-                  borderRadius: BorderRadius.circular(78),
-                ),
-              ),
-              child:  TextFormField(
-                //controller: _makerController,
-                //focusNode: _makerNode,
-                onChanged: (text) {
-                  //onSearchTextChanged(text);
-                },
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Enter Text",
-                  hintStyle:  TextStyle(
-                    color: Color(0xFF888888),
-                    fontSize: 14,
-                    fontFamily: 'Poppins medium',
-                    fontWeight: FontWeight.w400,
-                    height: 0,
-                  ),
-                  counterText: "",
-                  isDense: true,
-                ),
-                keyboardType: TextInputType.name,
-                maxLines: 1,
-                enabled: true,
-                //cursorColor: Color(0xFF394A5D),
-                style:  TextStyle(
-                  color: Color(0xFF0C3C89),
-                  fontSize: 12,
-                  fontFamily: 'Poppins Medium',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                  letterSpacing: 0.05,
-                ),
-              ),
-            ),
-
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15, top: 13),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3 - 38,
-                    height: 36,
-                    margin: EdgeInsets.only(right: 8, left: 8),
-                    alignment: Alignment.center,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF0C3C89),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(62),
-                      ),
-                    ),
-                    child: Text(
-                      'Yes',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3 - 38,
-                    height: 36,
-                    margin: EdgeInsets.only( right: 8, left: 8),
-                    alignment: Alignment.center,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFEAEAEA),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(62),
-                      ),
-                    ),
-                    child: Text(
-                      'No',
-                      style: TextStyle(
-                        color: Color(0xFF232323),
-                        fontSize: 12,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3 - 38,
-                    height: 36,
-                    margin: EdgeInsets.only(right: 8, left: 8),
-                    alignment: Alignment.center,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFEAEAEA),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(62),
-                      ),
-                    ),
-                    child: Text(
-                      'NA',
-                      style: TextStyle(
-                        color: Color(0xFF232323),
-                        fontSize: 12,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
 
 
             Container(
@@ -544,8 +410,8 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                 ),
               ),
               child:  TextFormField(
-                //controller: _checkerController,
-                //focusNode: _checkerNode,
+                controller: _checkerController,
+                focusNode: _checkerNode,
                 onChanged: (text) {
                   //onSearchTextChanged(text);
                 },
@@ -650,8 +516,6 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                 ],
               ),
             ),
-
-
             Container(
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(top: 20, left: 16),
@@ -680,8 +544,8 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                 ),
               ),
               child:  TextFormField(
-                //controller: _approverController,
-                //focusNode: _approverNode,
+                controller: _approverController,
+                focusNode: _approverNode,
                 onChanged: (text) {
                   //onSearchTextChanged(text);
                 },
@@ -897,7 +761,7 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
       };
   }
 
-    getConfirmWidget(StateSetter mystate) {
+  getConfirmWidget(StateSetter mystate) {
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -1054,5 +918,6 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
     );
 
   }
+
 
 }

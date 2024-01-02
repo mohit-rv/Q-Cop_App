@@ -1,45 +1,55 @@
+import 'dart:io';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_editor_plus/image_editor_plus.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:qcop/resources/resources.dart';
 import 'package:qcop/screens/dashboard_screen.dart';
 
-class QAReportListScreen extends StatefulWidget {
-  const QAReportListScreen({super.key});
+import '../../resources/resources.dart';
+
+class NCReportScreen extends StatefulWidget {
+  const NCReportScreen({super.key});
 
   @override
-  State<QAReportListScreen> createState() => _QAReportListScreenState();
+  State<NCReportScreen> createState() => _NCReportScreenState();
 }
 
-class _QAReportListScreenState extends State<QAReportListScreen> {
+class _NCReportScreenState extends State<NCReportScreen> {
+
+  String photo1 = "";
+  String photo2 = "";
+  String photo3 = "";
+  String photo4 = "";
+  String photo5 = "";
+  String photo6 = "";
+
+
+
+  final picker = ImagePicker();
 
   List<Map<String, dynamic>> fieldLists = [
     {"selectedValue" : "Select", "lists" : ["Select", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Check List", "lists" : ["Check List", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Element", "lists" : ["Element", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Intimated To", "lists" : ["Intimated To", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Level 5", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7"]},
   ];
 
+
   List<Map<String, dynamic>> reportLists= [
-    {"reportType" : "New", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
-    "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "Final Comments", "Maker" : "Maker User",
-    "Checker" : "Checker User", "Approver" : "", "Drawing No" : "vvv", "Contractor" : "Test Contractor", "location1" : "Tower 1",
-    "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
-    {"reportType" : "New", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
-      "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "Final Comments", "Maker" : "Maker User",
-      "Checker" : "Checker User", "Approver" : "", "Drawing No" : "vvv", "Contractor" : "Test Contractor", "location1" : "Tower 1",
+
+    {"reportType" : "Re-Open", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Observation",
+      "checkList" : "M.Bed,C.Bed BED1 looks not properly fix issues", "Latest Comments" : "Rejection Comments by Checker",
+      "Last Updated by": "Checker User", "Checker": "Checker User","Maker": "Maker User", "Exp Date": "06/10/2023\n38 Days remaining",
+       "Severity": "Medium",  "location1" : "Tower 1",
       "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
-    {"reportType" : "Re-Submit", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
-      "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "Both Conversations Closed", "Maker" : "Maker User (TEST)",
-      "Checker" : "Checker User", "Approver" : "Checker User", "Drawing No" : "vvv", "Contractor" : "Test Contractor", "location1" : "Tower 1",
+
+    {"reportType" : "Re-Open", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Observation",
+      "checkList" : "M.Bed,C.Bed BED1 looks not properly fix issues", "Latest Comments" : "Rejection Comments by Checker",
+      "Last Updated by": "Checker User", "Checker": "Checker User","Maker": "Maker User", "Exp Date": "06/10/2023\n38 Days remaining",
+      "Severity": "Medium",  "location1" : "Tower 1",
       "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
-    {"reportType" : "Re-Submit", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
-      "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "", "Maker" : "Maker User (TEST)",
-      "Checker" : "Checker User", "Approver" : "", "Drawing No" : "", "Contractor" : "Test Contractor", "location1" : "Tower 1",
-      "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : false, "isLastEdited" : false},
+
   ];
 
   List<DropdownMenuItem<String>> dropdownItems(index) {
@@ -74,6 +84,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
             ),
           )));
     }
+
     return menuItems;
   }
 
@@ -125,7 +136,8 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                     return getReportCard(index);
                   }),
             ),
-          )
+          ),
+
         ],
       ),
     );
@@ -276,7 +288,8 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   child: Container(
                     margin: EdgeInsets.only(left: 12, right: 12),
                     child: Text(
-                      '${index + 1}/${reportLists.length}',
+                      //'${index + 1}/${reportLists.length}',
+                      '${index + 1}/23',
                       style: TextStyle(
                         color: Color(0xFF0C3C88),
                         fontSize: 12,
@@ -292,7 +305,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   margin: EdgeInsets.only(top: 15, left: 4),
                   alignment: Alignment.center,
                   decoration: ShapeDecoration(
-                    color: reportLists[index]['reportType'].toString() == "New" ? Color(0xFF0C3C88) : Color(0xFF15C059),
+                    color: reportLists[index]['reportType'].toString() == "Re-Open" ? Color(0xFFD450D1) : Color(0xFF15C059),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(62),
                     ),
@@ -325,7 +338,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   child: Container(
                     margin: EdgeInsets.only(left: 12, right: 12),
                     child: Text(
-                        reportLists[index]['Date'].toString(),
+                      reportLists[index]['Date'].toString(),
                       style: TextStyle(
                         color: Color(0xFF6C6C6C),
                         fontSize: 12,
@@ -374,6 +387,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
               ),
             ),
 
+
             Container(
               margin: EdgeInsets.only(top: 10, left: 17, right: 17),
               child: Row(
@@ -382,7 +396,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                      'IR Date',
+                      'Latest Comments',
                       style: TextStyle(
                         color: Color(0xBC63676F),
                         fontSize: 12,
@@ -396,13 +410,98 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                        reportLists[index]['IR Date'].toString(),
+                      reportLists[index]['Latest Comments'].toString(),
                       style: TextStyle(
                         color: Color(0xFF394A5D),
                         fontSize: 13,
                         fontFamily: 'Poppins medium',
                         fontWeight: FontWeight.w500,
                         height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+            Container(
+              margin: EdgeInsets.only(left: 15, right: 15, top: 6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                    onTap: () {
+
+                      getImage(ImageSource.gallery, 1);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/3 - 30,
+                      height: 102,
+                      decoration: ShapeDecoration(
+                          color: Color(0xFFF5F5F5),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          image: photo1.isEmpty ?  DecorationImage(
+                            image: AssetImage(Resources.addPhotoImg),
+                            fit: BoxFit.cover,
+                          ) :
+                          DecorationImage(
+                            image: FileImage(File(photo1)),
+                            fit: BoxFit.cover,
+                          )
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+
+                      getImage(ImageSource.gallery, 2);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/3 - 30,
+                      height: 102,
+                      decoration: ShapeDecoration(
+                          color: Color(0xFFF5F5F5),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          image: photo2.isEmpty ?  DecorationImage(
+                            image: AssetImage(Resources.addPhotoImg),
+                            fit: BoxFit.cover,
+                          ) :
+                          DecorationImage(
+                            image: FileImage(File(photo2)),
+                            fit: BoxFit.cover,
+                          )
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+
+                      getImage(ImageSource.gallery, 3);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/3 - 30,
+                      height: 102,
+                      decoration: ShapeDecoration(
+                          color: Color(0xFFF5F5F5),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          image: photo3.isEmpty ?  DecorationImage(
+                            image: AssetImage(Resources.addPhotoImg),
+                            fit: BoxFit.cover,
+                          ) :
+                          DecorationImage(
+                            image: FileImage(File(photo3)),
+                            fit: BoxFit.cover,
+                          )
                       ),
                     ),
                   ),
@@ -432,7 +531,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                        reportLists[index]['Last Updated by'].toString(),
+                      reportLists[index]['Last Updated by'].toString(),
                       style: TextStyle(
                         color: Color(0xFF394A5D),
                         fontSize: 13,
@@ -445,6 +544,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 ],
               ),
             ),
+
             Container(
               margin: EdgeInsets.only(top: 10, left: 17, right: 17),
               child: Row(
@@ -453,7 +553,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                      'Latest Comments',
+                      'Checker',
                       style: TextStyle(
                         color: Color(0xBC63676F),
                         fontSize: 12,
@@ -467,7 +567,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                      reportLists[index]['Latest Comments'].toString(),
+                      reportLists[index]['Checker'].toString(),
                       style: TextStyle(
                         color: Color(0xFF394A5D),
                         fontSize: 13,
@@ -515,6 +615,9 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 ],
               ),
             ),
+
+
+
             Container(
               margin: EdgeInsets.only(top: 10, left: 17, right: 17),
               child: Row(
@@ -523,7 +626,42 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                      'Checker',
+                      'Exp Date',
+                      style: TextStyle(
+                        color: Color(0xFFEF3B4F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins Medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      reportLists[index]['Exp Date'].toString(),
+                      style: TextStyle(
+                        color: Color(0xFFEF3B4F),
+                        fontSize: 13,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      'Severity',
                       style: TextStyle(
                         color: Color(0xBC63676F),
                         fontSize: 12,
@@ -550,111 +688,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      'Approver',
-                      style: TextStyle(
-                        color: Color(0xBC63676F),
-                        fontSize: 12,
-                        fontFamily: 'Poppins Medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                        letterSpacing: -0.36,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      reportLists[index]['Approver'].toString(),
-                      style: TextStyle(
-                        color: Color(0xFF394A5D),
-                        fontSize: 13,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      'Drawing No',
-                      style: TextStyle(
-                        color: Color(0xBC63676F),
-                        fontSize: 12,
-                        fontFamily: 'Poppins Medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                        letterSpacing: -0.36,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      reportLists[index]['Drawing No'].toString(),
-                      style: TextStyle(
-                        color: Color(0xFF394A5D),
-                        fontSize: 13,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      'Contractor',
-                      style: TextStyle(
-                        color: Color(0xBC63676F),
-                        fontSize: 12,
-                        fontFamily: 'Poppins Medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                        letterSpacing: -0.36,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      reportLists[index]['Contractor'].toString(),
-                      style: TextStyle(
-                        color: Color(0xFF394A5D),
-                        fontSize: 13,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+
             Container(
               margin: EdgeInsets.only(top: 18, left: 15, right: 15),
               child: Row(
@@ -741,7 +775,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
             Container(
               margin: EdgeInsets.only(top: 27, left: 17, right: 17, bottom: 20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   reportLists[index]['isSynced'] ? Container(
                     height: 30,
@@ -754,7 +788,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                       ),
                     ),
                     child: Text(
-                      'Syncd',
+                      'Completed',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -816,4 +850,71 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
       ),
     );
   }
+
+
+  Future getImage(
+      ImageSource img,
+      int path
+      ) async {
+    final pickedFile = await picker.pickImage(source: img);
+    XFile? xfilePick = pickedFile;
+
+    var imageAsUnit8 = await File(pickedFile!.path).readAsBytes();
+
+    if (xfilePick != null) {
+      final editedImage = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              ImageEditor(
+                image: imageAsUnit8, // <-- Uint8List of image
+              ),
+        ),
+      );
+
+      print(editedImage);
+
+      if (editedImage != null) {
+
+        File outPutImage = File(pickedFile!.path);
+        outPutImage.writeAsBytesSync(editedImage);
+        print(outPutImage.path);
+
+        switch (path) {
+          case 1 :
+            {
+              photo1 = outPutImage.path;
+              break;
+            }
+          case 2 :
+            {
+              photo2 = outPutImage.path;
+              break;
+            }
+          case 3 :
+            {
+              photo3 = outPutImage.path;
+              break;
+            }
+          default :
+            {
+              photo1 = outPutImage.path;
+              break;
+            }
+        }
+        //titleTxt = "Submit";
+
+        //uploadImg();
+
+      } else {
+        /*ScaffoldMessenger.of(context).showSnackBar(// is this context <<<
+              const SnackBar(content: Text('Nothing is selected')));*/
+      }
+    }
+
+    setState(() {
+
+    });
+  }
+
 }

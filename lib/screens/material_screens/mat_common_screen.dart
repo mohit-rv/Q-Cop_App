@@ -1,44 +1,39 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qcop/local_database/database_handler.dart';
-import 'package:qcop/resources/resources.dart';
-import 'package:qcop/screens/qa_screens/qa_category_main_screen.dart';
-import 'package:qcop/screens/qa_screens/qa_connect_screen.dart';
-import 'package:qcop/screens/qa_screens/qa_location_screen.dart';
-import 'package:qcop/screens/qa_screens/qa_report_list_screen.dart';
+import 'package:qcop/screens/material_screens/mat_main_category_screen.dart';
+import 'package:qcop/screens/material_screens/mat_report_screen.dart';
 
-class QACommonScreen extends StatefulWidget {
-  const QACommonScreen({super.key});
+import '../../resources/resources.dart';
+import 'mat_category_screen.dart';
+import 'mat_connect_server.dart';
+
+class MatCommonScreen extends StatefulWidget {
+  const MatCommonScreen({super.key});
 
   @override
-  State<QACommonScreen> createState() => _QACommonScreenState();
+  State<MatCommonScreen> createState() => _MatCommonScreenState();
 }
 
-class _QACommonScreenState extends State<QACommonScreen> {
+class _MatCommonScreenState extends State<MatCommonScreen> {
 
   late ValueChanged<bool> onChange;
 
-  bool isLocSelected = true;
-  bool isCategorySelected = false;
+  bool isCategorySelected = true;
   bool isConnectSelected = false;
   bool isCheckSelected = false;
 
   @override
   void initState() {
-
+    // TODO: implement initState
     onChange = (value) {
       setState(() {
-        isLocSelected = false;
+        // isLocSelected = false;
         isConnectSelected = false;
         isCheckSelected = false;
         isCategorySelected = value;
       });
     };
-
-    //getSelectionData();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,24 +43,23 @@ class _QACommonScreenState extends State<QACommonScreen> {
         children: [
           getSelectOptions(),
           Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(50),
-                    topLeft: Radius.circular(50)),
+              margin:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(50),
+                      topLeft: Radius.circular(50)),
+                ),
+                color: Colors.white,
               ),
-              color: Colors.white,
-            ),
-            child: Container(
-              color: Colors.transparent,
-              margin: EdgeInsets.only(top: 30),
-              child: isLocSelected ? QALocationScreen(onChange: onChange,) :
-              isCategorySelected ? QACategoryMainScreen() :
-              isConnectSelected ? QAConnectScreen() :
-              QAReportListScreen(),
-            )
+              child: Container(
+                color: Colors.transparent,
+                margin: EdgeInsets.only(top: 30),
+                child: isCategorySelected ? MatCategoryMainScreen() :
+                isConnectSelected ? MatConnectServer() :
+                MatReportScreen()
+              )
           ),
         ],
       ),
@@ -102,6 +96,7 @@ class _QACommonScreenState extends State<QACommonScreen> {
     );
   }
 
+
   getSelectOptions() {
     return Container(
       height: MediaQuery.of(context).size.height,
@@ -113,61 +108,61 @@ class _QACommonScreenState extends State<QACommonScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell(
-              onTap: () {
-                setState(() {
-                  isCheckSelected = false;
-                  isConnectSelected = false;
-                  isCategorySelected = false;
-                  isLocSelected = true;
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 4 - 24,
-                height: 95,
-                alignment: Alignment.center,
-                decoration: ShapeDecoration(
-                  color: isLocSelected ? Colors.white : Colors.white30,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Image(
-                        image: isLocSelected
-                            ? AssetImage(Resources.activeLocIcon)
-                            : AssetImage(Resources.locIcon),
-                        width: 24,
-                        height: 30,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: Text(
-                        'Select location',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color:
-                              isLocSelected ? Color(0xFF0C3C89) : Colors.white,
-                          fontSize: 12,
-                          fontFamily: 'Poppins Medium',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // InkWell(
+            //   onTap: () {
+            //     setState(() {
+            //       isCheckSelected = false;
+            //       isConnectSelected = false;
+            //       isCategorySelected = true;
+            //
+            //     });
+            //   },
+            //   child: Container(
+            //     width: MediaQuery.of(context).size.width / 4 - 24,
+            //     height: 95,
+            //     alignment: Alignment.center,
+            //     decoration: ShapeDecoration(
+            //       color: isCategorySelected ? Colors.white : Colors.white30,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(25),
+            //       ),
+            //     ),
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         Container(
+            //           child: Image(
+            //             image: isCategorySelected
+            //                 ? AssetImage(Resources.activeLocIcon)
+            //                 : AssetImage(Resources.locIcon),
+            //             width: 24,
+            //             height: 30,
+            //           ),
+            //         ),
+            //         Container(
+            //           margin: EdgeInsets.only(top: 5),
+            //           child: Text(
+            //             'Select location',
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(
+            //               color:
+            //               isCategorySelected ? Color(0xFF0C3C89) : Colors.white,
+            //               fontSize: 12,
+            //               fontFamily: 'Poppins Medium',
+            //               fontWeight: FontWeight.w500,
+            //               height: 0,
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
 
             InkWell(
               onTap: () {
                 setState(() {
-                  isLocSelected = false;
+                 // isLocSelected = false;
                   isConnectSelected = false;
                   isCheckSelected = false;
                   isCategorySelected = true;
@@ -215,10 +210,12 @@ class _QACommonScreenState extends State<QACommonScreen> {
                 ),
               ),
             ),
+
+
             InkWell(
               onTap: () {
                 setState(() {
-                  isLocSelected = false;
+                //  isLocSelected = false;
                   isCheckSelected = false;
                   isCategorySelected = false;
                   isConnectSelected = true;
@@ -266,10 +263,12 @@ class _QACommonScreenState extends State<QACommonScreen> {
                 ),
               ),
             ),
+
+
             InkWell(
               onTap: () {
                 setState(() {
-                  isLocSelected = false;
+                 // isLocSelected = false;
                   isConnectSelected = false;
                   isCategorySelected = false;
                   isCheckSelected = true;
@@ -317,19 +316,11 @@ class _QACommonScreenState extends State<QACommonScreen> {
                 ),
               ),
             ),
+
           ],
         ),
       ),
     );
   }
-
-  void getSelectionData() async {
-
-    var selections = await DatabaseHandler().getQASelections();
-
-    print(selections);
-
-  }
-
 
 }

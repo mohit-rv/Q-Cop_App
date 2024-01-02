@@ -3,43 +3,44 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:qcop/resources/resources.dart';
-import 'package:qcop/screens/dashboard_screen.dart';
 
-class QAReportListScreen extends StatefulWidget {
-  const QAReportListScreen({super.key});
+import '../../resources/resources.dart';
+import '../dashboard_screen.dart';
+
+class MatReportScreen extends StatefulWidget {
+  const MatReportScreen({super.key});
 
   @override
-  State<QAReportListScreen> createState() => _QAReportListScreenState();
+  State<MatReportScreen> createState() => _MatReportScreenState();
 }
 
-class _QAReportListScreenState extends State<QAReportListScreen> {
+class _MatReportScreenState extends State<MatReportScreen> {
 
-  List<Map<String, dynamic>> fieldLists = [
-    {"selectedValue" : "Select", "lists" : ["Select", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Check List", "lists" : ["Check List", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Element", "lists" : ["Element", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Intimated To", "lists" : ["Intimated To", "Level 2", "Level 3", "Level 4", "Level 5"]},
-    {"selectedValue" : "Level 5", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7"]},
+  List<Map<String?, dynamic>> fieldLists= [
+    {"selected value": "Select", "list" : ["select","select2","select3","select4","select5"]}
   ];
 
-  List<Map<String, dynamic>> reportLists= [
-    {"reportType" : "New", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
-    "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "Final Comments", "Maker" : "Maker User",
-    "Checker" : "Checker User", "Approver" : "", "Drawing No" : "vvv", "Contractor" : "Test Contractor", "location1" : "Tower 1",
-    "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
-    {"reportType" : "New", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
-      "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "Final Comments", "Maker" : "Maker User",
-      "Checker" : "Checker User", "Approver" : "", "Drawing No" : "vvv", "Contractor" : "Test Contractor", "location1" : "Tower 1",
-      "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
-    {"reportType" : "Re-Submit", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
-      "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "Both Conversations Closed", "Maker" : "Maker User (TEST)",
-      "Checker" : "Checker User", "Approver" : "Checker User", "Drawing No" : "vvv", "Contractor" : "Test Contractor", "location1" : "Tower 1",
-      "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
-    {"reportType" : "Re-Submit", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
-      "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "", "Maker" : "Maker User (TEST)",
-      "Checker" : "Checker User", "Approver" : "", "Drawing No" : "", "Contractor" : "Test Contractor", "location1" : "Tower 1",
-      "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : false, "isLastEdited" : false},
+  List<Map<String?, dynamic>> reportLists= [
+
+    {"reportType" : "new", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}",
+     "category" : "Vehicle", "checkList" : "Cb",
+     "Challan" : "Cv",
+     "Quantity": "120.0 BAG",
+     "Spec": "Zhb", "Raised by": "Store keeper Contractor",
+     "Last Updated by": "Store keeper Contractor",
+     "Latest Notes": "fh",
+     "location1" : "Tower 1", "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
+
+
+    {"reportType" : "new", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}",
+      "category" : "Vehicle", "checkList" : "Cb",
+      "Challan" : "Cv",
+      "Quantity": "120.0 BAG",
+      "Spec": "Zhb", "Raised by": "Store keeper Contractor",
+      "Last Updated by": "Store keeper Contractor",
+      "Latest Notes": "fh",
+      "location1" : "Tower 1", "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
+
   ];
 
   List<DropdownMenuItem<String>> dropdownItems(index) {
@@ -74,8 +75,11 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
             ),
           )));
     }
+
     return menuItems;
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -120,12 +124,12 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: reportLists.length,
-                  //physics: NeverScrollableScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return getReportCard(index);
                   }),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -276,7 +280,8 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   child: Container(
                     margin: EdgeInsets.only(left: 12, right: 12),
                     child: Text(
-                      '${index + 1}/${reportLists.length}',
+                      //'${index + 1}/${reportLists.length}',
+                      '${index + 1}/23',
                       style: TextStyle(
                         color: Color(0xFF0C3C88),
                         fontSize: 12,
@@ -325,7 +330,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   child: Container(
                     margin: EdgeInsets.only(left: 12, right: 12),
                     child: Text(
-                        reportLists[index]['Date'].toString(),
+                      reportLists[index]['Date'].toString(),
                       style: TextStyle(
                         color: Color(0xFF6C6C6C),
                         fontSize: 12,
@@ -338,6 +343,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 )
               ],
             ),
+
             Container(
               margin: EdgeInsets.only(top: 32, left: 17, right: 17),
               child: Row(
@@ -374,6 +380,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
               ),
             ),
 
+
             Container(
               margin: EdgeInsets.only(top: 10, left: 17, right: 17),
               child: Row(
@@ -382,7 +389,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                      'IR Date',
+                      'Challan',
                       style: TextStyle(
                         color: Color(0xBC63676F),
                         fontSize: 12,
@@ -396,7 +403,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                        reportLists[index]['IR Date'].toString(),
+                      reportLists[index]['Challan'].toString(),
                       style: TextStyle(
                         color: Color(0xFF394A5D),
                         fontSize: 13,
@@ -409,6 +416,199 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 ],
               ),
             ),
+
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      'Quantity',
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins Medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      reportLists[index]['Quantity'].toString(),
+                      style: TextStyle(
+                        color: Color(0xFF394A5D),
+                        fontSize: 13,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      'Spec',
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins Medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      reportLists[index]['Spec'].toString(),
+                      style: TextStyle(
+                        color: Color(0xFF394A5D),
+                        fontSize: 13,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      'Raised By',
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins Medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      reportLists[index]['Raised By'].toString(),
+                      style: TextStyle(
+                        color: Color(0xFF394A5D),
+                        fontSize: 13,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+            // Container(
+            //   margin: EdgeInsets.only(left: 15, right: 15, top: 6),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       InkWell(
+            //         onTap: () {
+            //
+            //           getImage(ImageSource.gallery, 1);
+            //         },
+            //         child: Container(
+            //           width: MediaQuery.of(context).size.width/3 - 30,
+            //           height: 102,
+            //           decoration: ShapeDecoration(
+            //               color: Color(0xFFF5F5F5),
+            //               shape: RoundedRectangleBorder(
+            //                 side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
+            //                 borderRadius: BorderRadius.circular(4),
+            //               ),
+            //               image: photo1.isEmpty ?  DecorationImage(
+            //                 image: AssetImage(Resources.addPhotoImg),
+            //                 fit: BoxFit.cover,
+            //               ) :
+            //               DecorationImage(
+            //                 image: FileImage(File(photo1)),
+            //                 fit: BoxFit.cover,
+            //               )
+            //           ),
+            //         ),
+            //       ),
+            //       InkWell(
+            //         onTap: () {
+            //
+            //           getImage(ImageSource.gallery, 2);
+            //         },
+            //         child: Container(
+            //           width: MediaQuery.of(context).size.width/3 - 30,
+            //           height: 102,
+            //           decoration: ShapeDecoration(
+            //               color: Color(0xFFF5F5F5),
+            //               shape: RoundedRectangleBorder(
+            //                 side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
+            //                 borderRadius: BorderRadius.circular(4),
+            //               ),
+            //               image: photo2.isEmpty ?  DecorationImage(
+            //                 image: AssetImage(Resources.addPhotoImg),
+            //                 fit: BoxFit.cover,
+            //               ) :
+            //               DecorationImage(
+            //                 image: FileImage(File(photo2)),
+            //                 fit: BoxFit.cover,
+            //               )
+            //           ),
+            //         ),
+            //       ),
+            //       InkWell(
+            //         onTap: () {
+            //
+            //           getImage(ImageSource.gallery, 3);
+            //         },
+            //         child: Container(
+            //           width: MediaQuery.of(context).size.width/3 - 30,
+            //           height: 102,
+            //           decoration: ShapeDecoration(
+            //               color: Color(0xFFF5F5F5),
+            //               shape: RoundedRectangleBorder(
+            //                 side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
+            //                 borderRadius: BorderRadius.circular(4),
+            //               ),
+            //               image: photo3.isEmpty ?  DecorationImage(
+            //                 image: AssetImage(Resources.addPhotoImg),
+            //                 fit: BoxFit.cover,
+            //               ) :
+            //               DecorationImage(
+            //                 image: FileImage(File(photo3)),
+            //                 fit: BoxFit.cover,
+            //               )
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
             Container(
               margin: EdgeInsets.only(top: 10, left: 17, right: 17),
@@ -432,7 +632,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                        reportLists[index]['Last Updated by'].toString(),
+                      reportLists[index]['Last Updated by'].toString(),
                       style: TextStyle(
                         color: Color(0xFF394A5D),
                         fontSize: 13,
@@ -445,6 +645,8 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 ],
               ),
             ),
+
+
             Container(
               margin: EdgeInsets.only(top: 10, left: 17, right: 17),
               child: Row(
@@ -453,7 +655,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                      'Latest Comments',
+                      'Latest Notes',
                       style: TextStyle(
                         color: Color(0xBC63676F),
                         fontSize: 12,
@@ -467,7 +669,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                      reportLists[index]['Latest Comments'].toString(),
+                      reportLists[index]['Latest Notes'].toString(),
                       style: TextStyle(
                         color: Color(0xFF394A5D),
                         fontSize: 13,
@@ -480,181 +682,8 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      'Maker',
-                      style: TextStyle(
-                        color: Color(0xBC63676F),
-                        fontSize: 12,
-                        fontFamily: 'Poppins Medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                        letterSpacing: -0.36,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      reportLists[index]['Maker'].toString(),
-                      style: TextStyle(
-                        color: Color(0xFF394A5D),
-                        fontSize: 13,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      'Checker',
-                      style: TextStyle(
-                        color: Color(0xBC63676F),
-                        fontSize: 12,
-                        fontFamily: 'Poppins Medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                        letterSpacing: -0.36,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      reportLists[index]['Checker'].toString(),
-                      style: TextStyle(
-                        color: Color(0xFF394A5D),
-                        fontSize: 13,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      'Approver',
-                      style: TextStyle(
-                        color: Color(0xBC63676F),
-                        fontSize: 12,
-                        fontFamily: 'Poppins Medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                        letterSpacing: -0.36,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      reportLists[index]['Approver'].toString(),
-                      style: TextStyle(
-                        color: Color(0xFF394A5D),
-                        fontSize: 13,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      'Drawing No',
-                      style: TextStyle(
-                        color: Color(0xBC63676F),
-                        fontSize: 12,
-                        fontFamily: 'Poppins Medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                        letterSpacing: -0.36,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      reportLists[index]['Drawing No'].toString(),
-                      style: TextStyle(
-                        color: Color(0xFF394A5D),
-                        fontSize: 13,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      'Contractor',
-                      style: TextStyle(
-                        color: Color(0xBC63676F),
-                        fontSize: 12,
-                        fontFamily: 'Poppins Medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                        letterSpacing: -0.36,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 - 34,
-                    child: Text(
-                      reportLists[index]['Contractor'].toString(),
-                      style: TextStyle(
-                        color: Color(0xFF394A5D),
-                        fontSize: 13,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+
+
             Container(
               margin: EdgeInsets.only(top: 18, left: 15, right: 15),
               child: Row(
@@ -738,10 +767,11 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 ],
               ),
             ),
+
             Container(
               margin: EdgeInsets.only(top: 27, left: 17, right: 17, bottom: 20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   reportLists[index]['isSynced'] ? Container(
                     height: 30,
@@ -754,7 +784,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                       ),
                     ),
                     child: Text(
-                      'Syncd',
+                      'Completed',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -816,4 +846,6 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
       ),
     );
   }
+
+
 }

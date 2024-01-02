@@ -3,7 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qcop/local_database/database_handler.dart';
 import 'package:qcop/resources/resources.dart';
+import 'package:qcop/screens/ehs_screens/ehs_common_screen.dart';
+import 'package:qcop/screens/material_screens/mat_common_screen.dart';
+import 'package:qcop/screens/nc_screens/nc_common_screen.dart';
 import 'package:qcop/screens/qa_screens/qa_common_screen.dart';
+import 'package:qcop/screens/wp_screens/wp_common_screen.dart';
+
+import 'comm_dir_screens/comm_common_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -21,7 +27,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   var taskLists = [
     {"img" : Resources.qaIcon, "title" : "Quality\nAssurance", "pendency" : 10, "total" : 15, "color" : "0xFFF478B8"},
     {"img" : Resources.ncIcon, "title" : "Non\nConformance", "pendency" : 12, "total" : 16, "color" : "0xFF7C97F8"},
-    {"img" : Resources.pmIcon, "title" : "Non\nConformance", "pendency" : 10, "total" : 15, "color" : "0xFFF19244"},
+    {"img" : Resources.pmIcon, "title" : "Project\nManagement", "pendency" : 10, "total" : 15, "color" : "0xFFF19244"},
     {"img" : Resources.mIcon, "title" : "Material", "pendency" : 13, "total" : 15, "color" : "0xFFB985FC"},
     {"img" : Resources.cIcon, "title" : "Communication", "pendency" : 10, "total" : 15, "color" : "0xFFFF5A5C"},
     {"img" : Resources.ehsIcon, "title" : "Employee \nHealth & Safety", "pendency" : 13, "total" : 18, "color" : "0xFFFF5A5C"},
@@ -269,7 +275,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           return InkWell(
             onTap: () async {
 
-              await DatabaseHandler().initializedDB();
+              /*await DatabaseHandler().initializedDB();
 
               var selections = await DatabaseHandler().getQASelections();
 
@@ -279,9 +285,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
               } else {
 
                 await DatabaseHandler().updateQASelections(true, true, true, true);
-              }
+              }*/
 
-              Navigator.of(context).push(CupertinoPageRoute(builder: (context) => QACommonScreen()));
+              if (taskLists[index]['title'].toString() == "Quality\nAssurance") {
+                Navigator.of(context).push(
+                    CupertinoPageRoute(builder: (context) => QACommonScreen()));
+              } else if (taskLists[index]['title'].toString() == "Non\nConformance") {
+                Navigator.of(context).push(CupertinoPageRoute(builder: (context) => NCCommonScreen()));
+              } else if (taskLists[index]['title'].toString() == "Material") {
+                Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MatCommonScreen()));
+              } else if (taskLists[index]['title'].toString()== "Communication") {
+                Navigator.of(context).push(CupertinoPageRoute(builder: (context) => ComDIRCommonScreen()));
+              } else if(taskLists[index]['title'].toString()== "Employee \nHealth & Safety") {
+                Navigator.of(context).push(CupertinoPageRoute(builder: (context) => EHSCommonScreen()));
+              } else if(taskLists[index]['title'].toString()== "Work Permit") {
+                Navigator.of(context).push(CupertinoPageRoute(builder: (context) => WPCommonScreen()));
+              } else if(taskLists[index]['title'].toString()== "Daily \nLabour Report") {
+               // Navigator.of(context).push(CupertinoPageRoute(builder: (context => )));
+              }
+             // Navigator.push(context, MaterialPageRoute(builder: (context) => NCCommonScreen()));
+
 
             },
             child: Container(
@@ -302,6 +325,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   )
                 ],
               ),
+
               child: Row(
                 children: [
                   Container(

@@ -47,6 +47,7 @@ class DatabaseHandler {
 
       await db.execute("ALTER TABLE qa_location ADD location${i + 1} varchar(255)");
 
+
     }
 
     return db;
@@ -71,5 +72,10 @@ class DatabaseHandler {
       return null;
     }
   }
+
+
+
+////
+
 
 }

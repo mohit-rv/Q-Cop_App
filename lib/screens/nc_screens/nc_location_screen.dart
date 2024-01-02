@@ -1,25 +1,21 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hive/hive.dart';
 import 'package:qcop/local_database/database_handler.dart';
 import 'package:qcop/resources/resources.dart';
 
-class QALocationScreen extends StatefulWidget {
+class NCLocation extends StatefulWidget {
+
 
   late ValueChanged<bool> onChange;
 
-  QALocationScreen({super.key, required this.onChange});
+  NCLocation({super.key, required this.onChange});
 
   @override
-  State<QALocationScreen> createState() => _QALocationScreenState();
+  State<NCLocation> createState() => _NCLocationState();
 }
 
-class _QALocationScreenState extends State<QALocationScreen> {
-
-  late TextEditingController _searchController;
-  FocusNode _searchNode = FocusNode();
+class _NCLocationState extends State<NCLocation> {
 
   List<Map<String, dynamic>> fieldLists = [
     {"selectedValue" : "Level 1", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]},
@@ -29,7 +25,6 @@ class _QALocationScreenState extends State<QALocationScreen> {
     {"selectedValue" : "Level 5", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7"]},
   ];
 
-  var selectedValue = "Select";
 
   List<DropdownMenuItem<String>> dropdownItems(index) {
     List<DropdownMenuItem<String>> menuItems = [];
@@ -67,6 +62,10 @@ class _QALocationScreenState extends State<QALocationScreen> {
     return menuItems;
   }
 
+  late TextEditingController _searchController;
+  FocusNode _searchNode = FocusNode();
+
+
   @override
   void initState() {
     _searchController = TextEditingController();
@@ -82,46 +81,48 @@ class _QALocationScreenState extends State<QALocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            getSearchFiled(),
-            getFieldsList(),
-            InkWell(
-              onTap: () {
+        child: Padding(
+         padding: EdgeInsets.all(0),
+          child: Column(
+            children: [
+              getSearchFiled(),
+              getFieldsList(),
+              InkWell(
+                onTap: () {
 
-                saveDataInLocal();
+                  saveDataInLocal();
 
-                widget.onChange(true);
+                  widget.onChange(true);
 
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 56,
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(left: 24, right: 24, top: 36, bottom: 16),
-                decoration: ShapeDecoration(
-                  color: Color(0xFF0C3C89),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 56,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(left: 24, right: 24, top: 36, bottom: 16),
+                  decoration: ShapeDecoration(
+                    color: Color(0xFF0C3C89),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: Text(
+                    'Next',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontFamily: 'Poppins Semibold',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
                   ),
                 ),
-                child: Text(
-                  'Next',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'Poppins Semibold',
-                    fontWeight: FontWeight.w600,
-                    height: 0,
-                  ),
-                ),
-              ),
-            )
-          ],
+              )
+
+            ],
+          ),
         ),
       ),
     );
@@ -181,7 +182,6 @@ class _QALocationScreenState extends State<QALocationScreen> {
       ),
     );
   }
-
   getFieldsList() {
     return Container(
       child: ListView.builder(
@@ -220,22 +220,22 @@ class _QALocationScreenState extends State<QALocationScreen> {
                               return dropdownItems(index)
                                   .map(
                                     (e) => Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        e.value.toString(),
-                                        textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          color: Color(0xFF3C3C3C),
-                                          fontSize: 14,
-                                          fontFamily: 'Poppins Medium',
-                                          fontWeight: FontWeight.w400,
-                                          height: 0,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    e.value.toString(),
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                      color: Color(0xFF3C3C3C),
+                                      fontSize: 14,
+                                      fontFamily: 'Poppins Medium',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
                                     ),
-                                  )
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              )
                                   .toList();
                             },
                             isExpanded: true,
@@ -266,7 +266,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
                                 radius: const Radius.circular(40),
                                 thickness: MaterialStateProperty.all(6),
                                 thumbVisibility:
-                                    MaterialStateProperty.all(true),
+                                MaterialStateProperty.all(true),
                               ),
                             ),
                             menuItemStyleData: const MenuItemStyleData(
@@ -302,7 +302,6 @@ class _QALocationScreenState extends State<QALocationScreen> {
           }),
     );
   }
-
   void saveDataInLocal() async {
 
     var locationsList = await DatabaseHandler().getLocations();
@@ -333,11 +332,11 @@ class _QALocationScreenState extends State<QALocationScreen> {
         locations.add(i['selectedValue']);
       }
 
-        await DatabaseHandler().insertLocation(locations[0], locations[1], locations[2], locations[3], locations[4]);
+      await DatabaseHandler().insertLocation(locations[0], locations[1], locations[2], locations[3], locations[4]);
 
-        var locationsList = await DatabaseHandler().getLocations();
+      var locationsList = await DatabaseHandler().getLocations();
 
-        print(locationsList);
+      print(locationsList);
 
     }
 
@@ -356,4 +355,5 @@ class _QALocationScreenState extends State<QALocationScreen> {
 
 
   }
+
 }

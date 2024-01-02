@@ -2,19 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qcop/local_database/database_handler.dart';
 import 'package:qcop/resources/resources.dart';
-import 'package:qcop/screens/qa_screens/qa_category_main_screen.dart';
-import 'package:qcop/screens/qa_screens/qa_connect_screen.dart';
-import 'package:qcop/screens/qa_screens/qa_location_screen.dart';
+import 'package:qcop/screens/nc_screens/nc_connect_server.dart';
+import 'package:qcop/screens/nc_screens/nc_location_screen.dart';
+import 'package:qcop/screens/nc_screens/nc_report_screen.dart';
+//import 'package:qcop/screens/nc_screens/nc_connect_screen.dart';
 import 'package:qcop/screens/qa_screens/qa_report_list_screen.dart';
 
-class QACommonScreen extends StatefulWidget {
-  const QACommonScreen({super.key});
+import 'nc_category_screen.dart';
+
+class NCCommonScreen extends StatefulWidget {
+  const NCCommonScreen({super.key});
 
   @override
-  State<QACommonScreen> createState() => _QACommonScreenState();
+  State<NCCommonScreen> createState() => _NCCommonScreenState();
 }
 
-class _QACommonScreenState extends State<QACommonScreen> {
+class _NCCommonScreenState extends State<NCCommonScreen> {
 
   late ValueChanged<bool> onChange;
 
@@ -35,10 +38,10 @@ class _QACommonScreenState extends State<QACommonScreen> {
       });
     };
 
-    //getSelectionData();
+   // getSelectionData();
+
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +64,10 @@ class _QACommonScreenState extends State<QACommonScreen> {
             child: Container(
               color: Colors.transparent,
               margin: EdgeInsets.only(top: 30),
-              child: isLocSelected ? QALocationScreen(onChange: onChange,) :
-              isCategorySelected ? QACategoryMainScreen() :
-              isConnectSelected ? QAConnectScreen() :
-              QAReportListScreen(),
+              child: isLocSelected ? NCLocation(onChange: onChange) :
+              isCategorySelected ? NCCategoryScreen(onChange: onChange) :
+              isConnectSelected ? NCConnectServer() :
+              NCReportScreen(),
             )
           ),
         ],
@@ -163,7 +166,6 @@ class _QACommonScreenState extends State<QACommonScreen> {
                 ),
               ),
             ),
-
             InkWell(
               onTap: () {
                 setState(() {
@@ -272,6 +274,7 @@ class _QACommonScreenState extends State<QACommonScreen> {
                   isLocSelected = false;
                   isConnectSelected = false;
                   isCategorySelected = false;
+
                   isCheckSelected = true;
                 });
               },
@@ -330,6 +333,4 @@ class _QACommonScreenState extends State<QACommonScreen> {
     print(selections);
 
   }
-
-
 }

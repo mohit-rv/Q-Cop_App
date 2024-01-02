@@ -1,20 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qcop/local_database/database_handler.dart';
-import 'package:qcop/resources/resources.dart';
-import 'package:qcop/screens/qa_screens/qa_category_main_screen.dart';
-import 'package:qcop/screens/qa_screens/qa_connect_screen.dart';
-import 'package:qcop/screens/qa_screens/qa_location_screen.dart';
-import 'package:qcop/screens/qa_screens/qa_report_list_screen.dart';
+import 'package:qcop/screens/wp_screens/wp_category_screen.dart';
+import 'package:qcop/screens/wp_screens/wp_connect_screen.dart';
+import 'package:qcop/screens/wp_screens/wp_loc_screen.dart';
+import 'package:qcop/screens/wp_screens/wp_report_screen.dart';
 
-class QACommonScreen extends StatefulWidget {
-  const QACommonScreen({super.key});
+import '../../resources/resources.dart';
+
+class WPCommonScreen extends StatefulWidget {
+  const WPCommonScreen({super.key});
 
   @override
-  State<QACommonScreen> createState() => _QACommonScreenState();
+  State<WPCommonScreen> createState() => _WPCommonScreenState();
 }
 
-class _QACommonScreenState extends State<QACommonScreen> {
+class _WPCommonScreenState extends State<WPCommonScreen> {
 
   late ValueChanged<bool> onChange;
 
@@ -25,7 +25,6 @@ class _QACommonScreenState extends State<QACommonScreen> {
 
   @override
   void initState() {
-
     onChange = (value) {
       setState(() {
         isLocSelected = false;
@@ -34,11 +33,9 @@ class _QACommonScreenState extends State<QACommonScreen> {
         isCategorySelected = value;
       });
     };
-
-    //getSelectionData();
+    // TODO: implement initState
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,29 +45,30 @@ class _QACommonScreenState extends State<QACommonScreen> {
         children: [
           getSelectOptions(),
           Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(50),
-                    topLeft: Radius.circular(50)),
+              margin:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(50),
+                      topLeft: Radius.circular(50)),
+                ),
+                color: Colors.white,
               ),
-              color: Colors.white,
-            ),
-            child: Container(
-              color: Colors.transparent,
-              margin: EdgeInsets.only(top: 30),
-              child: isLocSelected ? QALocationScreen(onChange: onChange,) :
-              isCategorySelected ? QACategoryMainScreen() :
-              isConnectSelected ? QAConnectScreen() :
-              QAReportListScreen(),
-            )
+              child: Container(
+                color: Colors.transparent,
+                margin: EdgeInsets.only(top: 30),
+                child: isLocSelected ? WPLocScreen(onChange: onChange,) :
+                isCategorySelected ? WPCategoryScreen(onChange: onChange) :
+                isConnectSelected ? WPConnectScreen() :
+                WPReportScreen(),
+              )
           ),
         ],
       ),
     );
   }
+
 
   getAppBar() {
     return AppBar(
@@ -151,7 +149,7 @@ class _QACommonScreenState extends State<QACommonScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color:
-                              isLocSelected ? Color(0xFF0C3C89) : Colors.white,
+                          isLocSelected ? Color(0xFF0C3C89) : Colors.white,
                           fontSize: 12,
                           fontFamily: 'Poppins Medium',
                           fontWeight: FontWeight.w500,
@@ -330,6 +328,5 @@ class _QACommonScreenState extends State<QACommonScreen> {
     print(selections);
 
   }
-
 
 }
