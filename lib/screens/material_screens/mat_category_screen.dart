@@ -137,7 +137,7 @@ class _MatCategoryScreenState extends State<MatCategoryScreen> {
             InkWell(
               onTap: () {
 
-                Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => MatCheckPointsScreen()));
+              //  Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => MatCheckPointsScreen()));
 
                 widget.onChange(true);
 

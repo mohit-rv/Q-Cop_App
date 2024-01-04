@@ -1,6 +1,8 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:qcop/screens/wp_screens/wp_category_checkpoint_screen.dart';
 
 import '../../resources/resources.dart';
 
@@ -22,9 +24,10 @@ class _WPCategoryScreenState extends State<WPCategoryScreen> {
   FocusNode _locNode = FocusNode();
 
   List<Map<String, dynamic>> fieldLists = [
-    {"selectedValue" : "Category","list" : ["Category","level1","level2","level3","level4","level5"]},
+    {"selectedValue" : "Category","list" : ["Category","level1","level2","level3","level4","level5"]},      //0
     {"selectedValue" : "Check List", "lists" : ["Check List", "Level 2", "Level 3", "Level 4", "Level 5"]},
     {"selectedValue" : "Intimated to", "lists" : ["Intimated to", "Level 2", "Level 3", "Level 4", "Level 5"]},
+    {"selectedValue" : "Level 5", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7"]},
   ];
 
   List<DropdownMenuItem<String>> dropdownItems(index) {
@@ -80,17 +83,15 @@ class _WPCategoryScreenState extends State<WPCategoryScreen> {
         child: Column(
           children: [
             getSearchFiled(),
-            getFieldsList(0),
             getFieldsList(1),
-            getLoc1Field(),
             getFieldsList(2),
+            getLoc1Field(),
+            getFieldsList(3),
             // Spacer(),
             SizedBox(height: 50),
             InkWell(
               onTap: () {
-
-                //Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => QACheckPointsScreen()));
-
+                Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => WPCCheckPont()));
                 widget.onChange(true);
 
               },

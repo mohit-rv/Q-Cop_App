@@ -6,6 +6,7 @@ import 'package:qcop/resources/resources.dart';
 import 'package:qcop/screens/ehs_screens/ehs_common_screen.dart';
 import 'package:qcop/screens/material_screens/mat_common_screen.dart';
 import 'package:qcop/screens/nc_screens/nc_common_screen.dart';
+import 'package:qcop/screens/note_screen.dart';
 import 'package:qcop/screens/qa_screens/qa_common_screen.dart';
 import 'package:qcop/screens/wp_screens/wp_common_screen.dart';
 
@@ -91,13 +92,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: Colors.white,
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(right: 24, top: 60),
-                      child: Image(
-                        image: AssetImage(Resources.activeNotyIcon),
-                        width: 23,
-                        height: 23,
-                        color: Colors.white,
+                    InkWell(
+                      onTap: (){
+                  Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => Notif()));
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Notification()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 24, top: 60),
+                        child: Image(
+                          image: AssetImage(Resources.activeNotyIcon),
+                          width: 23,
+                          height: 23,
+                          color: Colors.white,
+                        ),
                       ),
                     )
                   ],
@@ -292,6 +299,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     CupertinoPageRoute(builder: (context) => QACommonScreen()));
               } else if (taskLists[index]['title'].toString() == "Non\nConformance") {
                 Navigator.of(context).push(CupertinoPageRoute(builder: (context) => NCCommonScreen()));
+              } else if(taskLists[index]['title'].toString() == 'Project\nManagement') {
+              //  Navigator.of(context).push(CupertinoPageRoute(builder: (context) => ))
               } else if (taskLists[index]['title'].toString() == "Material") {
                 Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MatCommonScreen()));
               } else if (taskLists[index]['title'].toString()== "Communication") {

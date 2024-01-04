@@ -7,14 +7,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:qcop/resources/resources.dart';
 
-class QACheckPointsScreen extends StatefulWidget {
-  const QACheckPointsScreen({super.key});
+class WPCCheckPont extends StatefulWidget {
+  const WPCCheckPont({super.key});
 
   @override
-  State<QACheckPointsScreen> createState() => _QACheckPointsScreenState();
+  State<WPCCheckPont> createState() => _WPCCheckPontState();
 }
 
-class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
+class _WPCCheckPontState extends State<WPCCheckPont> {
 
   String photo1 = "";
   String photo2 = "";
@@ -25,89 +25,76 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
 
   final picker = ImagePicker();
 
-  late TextEditingController _makerController;
-  late TextEditingController _checkerController;
-  late TextEditingController _approverController;
+  List<Map<String, dynamic>> reportLists = [
 
-  final FocusNode _makerNode = FocusNode();
-  final FocusNode _checkerNode = FocusNode();
-  final FocusNode _approverNode = FocusNode();
-
-  late YYDialog confirmDialog;
-
-  @override
-  void initState() {
-    _makerController = TextEditingController();
-    _checkerController = TextEditingController();
-    _approverController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _makerController.dispose();
-    _checkerController.dispose();
-    _approverController.dispose();
-    super.dispose();
-  }
+    { "location1" : "Sector 1", "location2" : "Tower B", "location3" : "Flat 101", "location4" : "C13"},
+    { "location1" : "Sector 1", "location2" : "Tower B", "location3" : "Flat 101", "location4" : "C13"},
+    { "location1" : "Sector 1", "location2" : "Tower B", "location3" : "Flat 101", "location4" : "C13"},
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      resizeToAvoidBottomInset: false,
+
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 3,
-                itemBuilder: (context, index) {
-              return getPointsCard(index);
-            }),
-            InkWell(
-              onTap: () {
+        child: Stack(
+            children: [
 
-                //Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => QACheckPointsScreen()));
-                confirmDialog = YYDialogConfirm(context);
-                confirmDialog.show();
 
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 56,
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(left: 24, right: 24, top: 36, bottom: 16),
-                decoration: ShapeDecoration(
-                  color: Color(0xFF0C3C89),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: Text(
-                  'Confirm',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'Poppins Semibold',
-                    fontWeight: FontWeight.w600,
-                    height: 0,
-                  ),
-                ),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                color: Color(0xFF0C3C88),
               ),
-            ),
-          ],
+
+              Container(
+                margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
+                decoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(50),
+                        topLeft: Radius.circular(50)),
+                  ),
+                  color: Colors.white,
+                ),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      return getPointsCard(index);
+                    }),
+              ),
+
+              Container(
+                margin: EdgeInsets.only(left: 27,top: 40),
+                child:  InkWell(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Image(
+                    image: AssetImage(Resources.backIcon),
+                    width: 28,
+                    height: 28,
+                  ),
+                ),
+              )
+
+
+            ],
+
         ),
       ),
     );
   }
 
+
   getPointsCard(int index) {
     return Card(
       color: Colors.white,
-      margin: EdgeInsets.only(left: 17, right: 17, bottom: 18),
+      margin: EdgeInsets.only(left: 17, right: 17, bottom: 20),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
@@ -121,7 +108,91 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
         ),
         child: Column(
           children: [
-            Row(
+            Container(
+              margin: EdgeInsets.only(top: 17, left: 15, right: 15),
+              child: Row(
+                children: [
+                  Container(
+                    child: Text(
+                      reportLists[index]['location1'].toString(),
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 21, right: 21),
+                    child: Image(
+                      image: AssetImage(Resources.rightArrowIcon),
+                      width: 7,
+                      height: 13,
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      reportLists[index]['location2'].toString(),
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 21, right: 21),
+                    child: Image(
+                      image: AssetImage(Resources.rightArrowIcon),
+                      width: 7,
+                      height: 13,
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      reportLists[index]['location3'].toString(),
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 21, right: 21),
+                    child: Image(
+                      image: AssetImage(Resources.rightArrowIcon),
+                      width: 7,
+                      height: 13,
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      reportLists[index]['location4'].toString(),
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
                   height: 30,
@@ -152,7 +223,7 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                   margin: EdgeInsets.only(top: 15, left: 4),
                   alignment: Alignment.center,
                   decoration: ShapeDecoration(
-                    color: Color(0xFFCACB07),
+                    color: Color(0xFF0C3C88),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(62),
                     ),
@@ -160,7 +231,7 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                   child: Container(
                     margin: EdgeInsets.only(left: 12, right: 12),
                     child: Text(
-                      'Completed',
+                      'New',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -202,7 +273,7 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
             Container(
               margin: EdgeInsets.only(left: 15, right: 15, top: 20),
               child: Text(
-                'Weather the bricks are soaked in water prior to use?',
+                'Are the tanks adequally illuminated while work is in progress',
                 style: TextStyle(
                   color: Color(0xFF242424),
                   fontSize: 15,
@@ -226,19 +297,19 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                       width: MediaQuery.of(context).size.width/3 - 30,
                       height: 102,
                       decoration: ShapeDecoration(
-                        color: Color(0xFFF5F5F5),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        image: photo1.isEmpty ?  DecorationImage(
-                          image: AssetImage(Resources.addPhotoImg),
-                          fit: BoxFit.cover,
-                        ) :
-                        DecorationImage(
-                          image: FileImage(File(photo1)),
-                          fit: BoxFit.cover,
-                        )
+                          color: Color(0xFFF5F5F5),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          image: photo1.isEmpty ?  DecorationImage(
+                            image: AssetImage(Resources.addPhotoImg),
+                            fit: BoxFit.cover,
+                          ) :
+                          DecorationImage(
+                            image: FileImage(File(photo1)),
+                            fit: BoxFit.cover,
+                          )
                       ),
                     ),
                   ),
@@ -531,6 +602,8 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                 ),
               ),
             ),
+
+
             Container(
               width: MediaQuery.of(context).size.width,
               height: 50,
@@ -578,9 +651,8 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 15, right: 15, top: 13),
+              margin: EdgeInsets.only(left: 15, right: 15, top: 13,bottom: 20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width / 3 - 38,
@@ -626,172 +698,18 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3 - 38,
-                    height: 36,
-                    margin: EdgeInsets.only(right: 8, left: 8),
-                    alignment: Alignment.center,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFEAEAEA),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(62),
-                      ),
-                    ),
-                    child: Text(
-                      'NA',
-                      style: TextStyle(
-                        color: Color(0xFF232323),
-                        fontSize: 12,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
+
                 ],
               ),
             ),
 
 
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(top: 20, left: 16),
-              child: Text(
-                'Approver',
-                style: TextStyle(
-                  color: Color(0xFF242424),
-                  fontSize: 15,
-                  fontFamily: 'Poppins medium',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 50,
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 15, right: 15, top: 9),
-              padding: EdgeInsets.only(left: 19, right: 19),
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFFCACED8)),
-                  borderRadius: BorderRadius.circular(78),
-                ),
-              ),
-              child:  TextFormField(
-                //controller: _approverController,
-                //focusNode: _approverNode,
-                onChanged: (text) {
-                  //onSearchTextChanged(text);
-                },
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Enter Text",
-                  hintStyle:  TextStyle(
-                    color: Color(0xFF888888),
-                    fontSize: 14,
-                    fontFamily: 'Poppins medium',
-                    fontWeight: FontWeight.w400,
-                    height: 0,
-                  ),
-                  counterText: "",
-                  isDense: true,
-                ),
-                keyboardType: TextInputType.name,
-                maxLines: 1,
-                enabled: true,
-                //cursorColor: Color(0xFF394A5D),
-                style:  TextStyle(
-                  color: Color(0xFF0C3C89),
-                  fontSize: 12,
-                  fontFamily: 'Poppins Medium',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                  letterSpacing: 0.05,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15, top: 13, bottom: 18),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3 - 38,
-                    height: 36,
-                    margin: EdgeInsets.only(right: 8, left: 8),
-                    alignment: Alignment.center,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF0C3C89),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(62),
-                      ),
-                    ),
-                    child: Text(
-                      'Yes',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3 - 38,
-                    height: 36,
-                    margin: EdgeInsets.only( right: 8, left: 8),
-                    alignment: Alignment.center,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFEAEAEA),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(62),
-                      ),
-                    ),
-                    child: Text(
-                      'No',
-                      style: TextStyle(
-                        color: Color(0xFF232323),
-                        fontSize: 12,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3 - 38,
-                    height: 36,
-                    margin: EdgeInsets.only(right: 8, left: 8),
-                    alignment: Alignment.center,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFEAEAEA),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(62),
-                      ),
-                    ),
-                    child: Text(
-                      'NA',
-                      style: TextStyle(
-                        color: Color(0xFF232323),
-                        fontSize: 12,
-                        fontFamily: 'Poppins medium',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
     );
   }
+
 
   Future getImage(
       ImageSource img,
@@ -874,6 +792,8 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
   }
 
 
+
+
   YYDialog YYDialogConfirm(BuildContext context) {
     return YYDialog().build(context)
       ..width = MediaQuery.of(context).size.width * 0.9
@@ -898,7 +818,8 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
       };
   }
 
-    getConfirmWidget(StateSetter mystate) {
+
+  getConfirmWidget(StateSetter mystate) {
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -1057,3 +978,5 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
   }
 
 }
+
+

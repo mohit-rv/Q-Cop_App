@@ -60,7 +60,7 @@ class _WPCommonScreenState extends State<WPCommonScreen> {
                 margin: EdgeInsets.only(top: 30),
                 child: isLocSelected ? WPLocScreen(onChange: onChange,) :
                 isCategorySelected ? WPCategoryScreen(onChange: onChange) :
-                isConnectSelected ? WPConnectScreen() :
+                isConnectSelected ? const WPConnectScreen() :
                 WPReportScreen(),
               )
           ),

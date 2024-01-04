@@ -412,7 +412,6 @@ class _QAConnectScreenState extends State<QAConnectScreen> {
           }),
     );
   }*/
-
   getDownloadDropdown() {
     var index = 0;
     return Container(
@@ -527,4 +526,5 @@ class _QAConnectScreenState extends State<QAConnectScreen> {
       ),
     );
   }
+
 }
