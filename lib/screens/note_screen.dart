@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../resources/resources.dart';
 
@@ -78,16 +79,23 @@ class _NotifState extends State<Notif> {
                         ),),
                       ),
 
-                      Container(
-                        margin: EdgeInsets.only(top: 27,right: 24,left: 150),
-                        child:  Text('Clear All',style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF0060D3),
-                          fontFamily: "Poppins Medium",
-                          height: 0,
-                          fontWeight: FontWeight.w400,
-
-                      ),)
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            NFList.clear();
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 27,right: 24,left: 150),
+                          child:  Text('Clear All',style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF0060D3),
+                            fontFamily: "Poppins Medium",
+                            height: 0,
+                            fontWeight: FontWeight.w400,
+                        
+                        ),)
+                        ),
                       )
                     ],
                   ),
@@ -155,152 +163,180 @@ class _NotifState extends State<Notif> {
     return Expanded(
         child: Container(
           child: ListView.builder(
-            itemCount: 4,
+            itemCount: NFList.length,
             shrinkWrap: true,
               physics: ScrollPhysics(),
               controller: ScrollController(),
               itemBuilder: (context, index){
-            return InkWell(
-              onTap: (){
-                Dismissible(
-                  key: Key(NFList[index].toString()),
-                  background: Container(
-                    color: Colors.red,
-                    child: Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                      size: 30.0,
-                    ),
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsets.only(right: 20.0),
-                  ),
-                  onDismissed: (direction) {
-                    setState(() {
-                      NFList.removeAt(index);
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Item deleted'),
-                      ),
-                    );
-                  },
-                  child: ListTile(
-                    title: Text(NFList[index].toString()),
-                  ),
-                );
-              },
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.only(top: 10,),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)
-                      ),
+
+
+              return Slidable(
+                key: Key('$NFList'),
+                // startActionPane: ActionPane(
+                //   motion: ScrollMotion(),
+                //   children: [
+                //
+                //   ],
+                // ),
+                endActionPane: ActionPane(
+                  motion: ScrollMotion(),
+                   dismissible: DismissiblePane(onDismissed: (){
+                     setState(() {
+                       NFList.removeAt(index);
+                     });
+                   },),
+                  children: [
+                    SlidableAction(
+                      flex: 2,
+                      icon: Icons.delete,
+                      label: 'delete',
+                      backgroundColor: Colors.red ,
+                      onPressed: (direction) {
+                      setState(() {
+                        NFList.removeAt(index);
+                      });
+                },
+
 
                     ),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 0,left: 10,right: 10),
-                          child: Container(
-                            height: 40,width: 40,
-                            margin: EdgeInsets.only(),
-                            decoration: ShapeDecoration(
-                              color: Color(0x17005AC6),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(75)
-                              )
-                            ),
-                            child: Container(
-                              margin: EdgeInsets.only(top: 9),
-                              child: Text(
-                                NFList[index]['icon'].toString(),
-                                textAlign:TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFF0C3C89),
-                                  fontSize: 13,
-                                  fontFamily: "Poppins SemiBold",
-                                  fontWeight: FontWeight.w600
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
 
-                        Container(
-                         // margin: EdgeInsets.only(),
-                          child: Column(mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(margin: EdgeInsets.only(right: 43),
-                                    child: Text(NFList[index]["title"].toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "Poppins SemiBold",
-                                      fontSize: 13
-                                    ),),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(),
-                                    child: Text(NFList[index]["time"].toString(),
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "Poppins",
-                                          color: Color(0xFFA7A9B7),
-                                         height: 0.16
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
+                  ],
+                ),
 
-                              Container(
-                                margin: EdgeInsets.only(right: 135),
-                                child: Text(NFList[index]["stitle"].toString(),
-                               //  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 13,fontWeight: FontWeight.w400,color: Color(0xFFA7A9B7),
-                                  ),
-                                ),
-                              ),
+                // onDismissed: (direction){
+                //   setState(() {
+                //     NFList.removeAt(index);
+                //   });
+                // },
+                //
+                // background: Container(
+                //   decoration: BoxDecoration(
+                //     color: Colors.red
+                //   ),
+                //   child: Container(
+                //       margin: EdgeInsets.only(top: 10,left: 300,right: 10),
+                //      // child: Text('delete',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),)
+                //     child:  Icon(Icons.delete,color: Colors.white,size: 30,),
+                //   ),
+                //
+                // ),
 
-
-                            ],
-                          ),
-                        ),
-
-
-
-                      ],
-                    ),
-                  ),
-
-                  Container(
-                    width: 300,
-                    decoration: ShapeDecoration(
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(top: 10,),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
                         shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                width: 1.5,
-                                strokeAlign: BorderSide.strokeAlignCenter,
-                                color: Color(0xFFF3F3F3)
-                            )
-                        )
-                    ),
-                  )
+                          borderRadius: BorderRadius.circular(16)
+                        ),
 
-                ],
-              ),
-            );
+                      ),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 0,left: 10,right: 10),
+                            child: Container(
+                              height: 40,width: 40,
+                              margin: EdgeInsets.only(),
+                              decoration: ShapeDecoration(
+                                color: Color(0x17005AC6),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(75)
+                                )
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.only(top: 9),
+                                child: Text(
+                                  NFList[index]['icon'].toString(),
+                                  textAlign:TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF0C3C89),
+                                    fontSize: 13,
+                                    fontFamily: "Poppins SemiBold",
+                                    fontWeight: FontWeight.w600
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                           // margin: EdgeInsets.only(),
+                            child: Column(mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(margin: EdgeInsets.only(right: 43),
+                                      child: Text(NFList[index]["title"].toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Poppins SemiBold",
+                                        fontSize: 13
+                                      ),),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(),
+                                      child: Text(NFList[index]["time"].toString(),
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Poppins",
+                                            color: Color(0xFFA7A9B7),
+                                           height: 0.16
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+
+                                Container(
+                                  margin: EdgeInsets.only(right: 135),
+                                  child: Text(NFList[index]["stitle"].toString(),
+                                 //  textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 13,fontWeight: FontWeight.w400,color: Color(0xFFA7A9B7),
+                                    ),
+                                  ),
+                                ),
+
+
+                              ],
+                            ),
+                          ),
+
+
+
+                        ],
+                      ),
+                    ),
+
+                    Container(
+                      width: 300,
+                      decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1.5,
+                                  strokeAlign: BorderSide.strokeAlignCenter,
+                                  color: Color(0xFFF3F3F3)
+                              )
+                          )
+                      ),
+                    )
+
+                  ],
+                ),
+              );
+
           }
 
           ),
     ));
   }
+
+
+
 
 }

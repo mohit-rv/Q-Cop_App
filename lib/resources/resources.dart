@@ -34,4 +34,7 @@ class Resources {
   static const String downloadIcon = "resources/images/download_icon.png";
   static const String rightArrowIcon = "resources/images/right_arrow_icon.png";
 
+  static const String addIcon = "resources/images/add.png";
+  static const String collapseIcon = "resources/images/collapse_icon.png";
+
 }

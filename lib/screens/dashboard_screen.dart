@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qcop/screens/faq_screen.dart';
 import 'package:qcop/local_database/database_handler.dart';
 import 'package:qcop/resources/resources.dart';
 import 'package:qcop/screens/ehs_screens/ehs_common_screen.dart';
@@ -83,15 +84,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(right: 18, top: 60),
-                      child: Image(
-                        image: AssetImage(Resources.dashSyncIcon),
-                        width: 23,
-                        height: 23,
-                        color: Colors.white,
+
+                    InkWell(
+                      onTap: (){
+                        Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => FAQScreen()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 18, top: 60),
+                        child: Image(
+                          image: AssetImage(Resources.dashSyncIcon),
+                          width: 23,
+                          height: 23,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
+
+
                     InkWell(
                       onTap: (){
                   Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => Notif()));
