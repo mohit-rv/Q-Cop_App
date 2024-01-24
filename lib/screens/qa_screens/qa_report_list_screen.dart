@@ -26,19 +26,19 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
   List<Map<String, dynamic>> reportLists= [
     {"reportType" : "New", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
     "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "Final Comments", "Maker" : "Maker User",
-    "Checker" : "Checker User", "Approver" : "", "Drawing No" : "vvv", "Contractor" : "Test Contractor", "location1" : "Tower 1",
+    "Checker" : "Checker User", "Approver" : "", "Drawing No" : "vvv", "Contractor" : "Test Contractor","Work order": "Text", "location1" : "Tower 1",
     "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
     {"reportType" : "New", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
       "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "Final Comments", "Maker" : "Maker User",
-      "Checker" : "Checker User", "Approver" : "", "Drawing No" : "vvv", "Contractor" : "Test Contractor", "location1" : "Tower 1",
+      "Checker" : "Checker User", "Approver" : "", "Drawing No" : "vvv", "Contractor" : "Test Contractor","Work order": "Text", "location1" : "Tower 1",
       "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
     {"reportType" : "Re-Submit", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
       "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "Both Conversations Closed", "Maker" : "Maker User (TEST)",
-      "Checker" : "Checker User", "Approver" : "Checker User", "Drawing No" : "vvv", "Contractor" : "Test Contractor", "location1" : "Tower 1",
+      "Checker" : "Checker User", "Approver" : "Checker User", "Drawing No" : "vvv", "Contractor" : "Test Contractor","Work order": "Text", "location1" : "Tower 1",
       "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
     {"reportType" : "Re-Submit", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
       "IR Date" : "21/10/2023 12:07 PM", "Last Updated by" : "Maker User", "Latest Comments" : "", "Maker" : "Maker User (TEST)",
-      "Checker" : "Checker User", "Approver" : "", "Drawing No" : "", "Contractor" : "Test Contractor", "location1" : "Tower 1",
+      "Checker" : "Checker User", "Approver" : "", "Drawing No" : "", "Contractor" : "Test Contractor","Work order": "Text", "location1" : "Tower 1",
       "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : false, "isLastEdited" : false},
   ];
 
@@ -122,7 +122,7 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                   itemCount: reportLists.length,
                   //physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return getReportCard(index);
+                    return getReportCard(1);
                   }),
             ),
           )
@@ -620,6 +620,8 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 ],
               ),
             ),
+
+
             Container(
               margin: EdgeInsets.only(top: 10, left: 17, right: 17),
               child: Row(
@@ -655,6 +657,44 @@ class _QAReportListScreenState extends State<QAReportListScreen> {
                 ],
               ),
             ),
+
+
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
+              child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+              'Work Order',
+                style: TextStyle(
+                  color: Color(0xBC63676F),
+                  fontSize: 12,
+                  fontFamily: 'Poppins Medium',
+                  fontWeight: FontWeight.w500,
+                  height: 0,
+                  letterSpacing: -0.36,
+                ),
+              ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      reportLists[index]['Work order'].toString(),
+                      style: TextStyle(
+                        color: Color(0xFF394A5D),
+                        fontSize: 13,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+
+
             Container(
               margin: EdgeInsets.only(top: 18, left: 15, right: 15),
               child: Row(

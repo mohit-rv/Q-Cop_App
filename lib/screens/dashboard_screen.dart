@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qcop/screens/daily_report_screens/dashb_graph_common_screen.dart';
+import 'package:qcop/screens/drawer_screen.dart';
 import 'package:qcop/screens/faq_screen.dart';
 import 'package:qcop/local_database/database_handler.dart';
 import 'package:qcop/resources/resources.dart';
@@ -14,13 +16,18 @@ import 'package:qcop/screens/wp_screens/wp_common_screen.dart';
 import 'comm_dir_screens/comm_common_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+
+  //final FileImage selectImage;
+
+  const DashboardScreen({super.key,});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+
+  var scaffoldKey = GlobalKey<ScaffoldState>();
 
   CarouselController buttonCarouselController = CarouselController();
 
@@ -40,6 +47,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      //appBar: AppBar(),
+
+   drawer: DrawerW(),
       body: Stack(
         children: [
           Container(
@@ -50,25 +61,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      margin: EdgeInsets.only(left: 24, top: 60),
-                      decoration: ShapeDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage("https://via.placeholder.com/40x40"),
-                          fit: BoxFit.contain,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            strokeAlign: BorderSide.strokeAlignOutside,
-                            color: Colors.white,
+
+                       InkWell(
+                         onTap: (){
+
+                           scaffoldKey.currentState?.openDrawer();
+                        },
+                         child: Container(
+                            width: 40,
+                            height: 40,
+                            margin: EdgeInsets.only(left: 24, top: 60),
+                            decoration: ShapeDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage("https://via.placeholder.com/40x40"),
+                                fit: BoxFit.contain,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  width: 1,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                  color: Colors.white,
+                                ),
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                            ),
+
                           ),
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                      ),
-                    ),
+                       ),
+
+
+
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(top: 60, left: 10),
@@ -87,7 +109,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                     InkWell(
                       onTap: (){
-                        Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => FAQScreen()));
+                      //  Navigator.of(context, rootNavigator: true).push(CupertinoPageRoute(builder: (context) => FAQScreen()));
                       },
                       child: Container(
                         margin: EdgeInsets.only(right: 18, top: 60),
@@ -110,8 +132,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         margin: EdgeInsets.only(right: 24, top: 60),
                         child: Image(
                           image: AssetImage(Resources.activeNotyIcon),
-                          width: 23,
-                          height: 23,
+                          width: 25,
+                          height: 25,
                           color: Colors.white,
                         ),
                       ),
@@ -137,6 +159,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                       //height: 450,
+
                       autoPlay: false,
                       enlargeCenterPage: false,
                       viewportFraction: 0.8,
@@ -157,6 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       },
                     ),
                     itemCount: 3,
+
                     itemBuilder: (BuildContext context, int index,
                         int realIndex) {
                       return Container(
@@ -174,6 +198,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         //getMembersCard(),
                       );
                     },
+
                   ),
                 ),
                 getTasksList(),
@@ -319,7 +344,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               } else if(taskLists[index]['title'].toString()== "Work Permit") {
                 Navigator.of(context).push(CupertinoPageRoute(builder: (context) => WPCommonScreen()));
               } else if(taskLists[index]['title'].toString()== "Daily \nLabour Report") {
-               // Navigator.of(context).push(CupertinoPageRoute(builder: (context => )));
+                Navigator.of(context).push(CupertinoPageRoute(builder: (context) => DLRCommonScreen()));
+              }else{
+                return null;
               }
              // Navigator.push(context, MaterialPageRoute(builder: (context) => NCCommonScreen()));
 
@@ -439,4 +466,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+
+
+
+
+
 }

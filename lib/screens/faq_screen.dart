@@ -12,21 +12,16 @@ class FAQScreen extends StatefulWidget {
 class _FAQScreenState extends State<FAQScreen>
   with TickerProviderStateMixin {
 
-  List<Map<String, dynamic>> FaqItems = [
+  List<Map<String, dynamic>> FaqItems = [];
 
-  ];
-
-
-   bool isContainerVisible = false;
 
    @override
    void initState() {
 
-
      for(var i = 0; i < 8; i++) {
 
        var _controller = AnimationController(
-           duration: Duration(microseconds: 500),
+           duration: Duration(milliseconds: 600),
            vsync: this);
 
        var _animation = CurvedAnimation(
@@ -34,20 +29,19 @@ class _FAQScreenState extends State<FAQScreen>
 
        FaqItems.add(
          {
-           "title": "Are the adequaltety",
+           "title":   "Are the tanks adequately",
            "stitle": "Open the Tradebase app is to get started and follow the steps. Tradebase this doesn’t charge a fee to create"
                " or maintain your Tradebase account. Open the Tradebase app to get. started and follow, the steps. doesn’t charge a fee "
                "to create or maintain your Tradebase account.",
            "isExpanded": false,
-           "controller": _controller,
-           "animation": _animation
+           "controller": _controller,       // use to start the the animation
+           "animation": _animation           //use to end the the animation
          },
 
        );
      }
 
     super.initState();
-
 
   }
 
@@ -111,9 +105,10 @@ class _FAQScreenState extends State<FAQScreen>
           ),
         ),
       ),
+
+
       bottomNavigationBar: InkWell(
         onTap: () {
-
 
         },
         child: Container(
@@ -127,16 +122,21 @@ class _FAQScreenState extends State<FAQScreen>
               borderRadius: BorderRadius.circular(30),
             ),
           ),
-          child: Text(
-            'Contact via email',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontFamily: 'Poppins Semibold',
-              fontWeight: FontWeight.w600,
-              height: 0,
-            ),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.comment,color: Colors.white,),
+              Text(
+                'Contact via email',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontFamily: 'Poppins Semibold',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -214,6 +214,7 @@ class _FAQScreenState extends State<FAQScreen>
                                   image: FaqItems[index]['isExpanded'] ? AssetImage(Resources.collapseIcon) : AssetImage(Resources.addIcon),
                                   width: 24,
                                   height: FaqItems[index]['isExpanded'] ? 2 :24,
+                                 // height: 24,
                                 ),
                               )
                             ),
@@ -222,7 +223,7 @@ class _FAQScreenState extends State<FAQScreen>
                           ],
                         ),
                         FaqItems[index]['isExpanded'] ?
-                        SizeTransition(
+                        SizeTransition(                            //for animation
                           sizeFactor: FaqItems[index]['animation'],
                           //  axis: Axis.vertical,
                           child: Container(

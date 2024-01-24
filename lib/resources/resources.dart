@@ -36,5 +36,21 @@ class Resources {
 
   static const String addIcon = "resources/images/add.png";
   static const String collapseIcon = "resources/images/collapse_icon.png";
+  static const String groupIcon = "resources/images/Group.png";
+  static const String notification = "resources/images/notification.png";
+  static const String accountIcon = "resources/images/Vector.png";
+  static const String editIcon = "resources/images/edit.png";
+  static const String faqIcon = "resources/images/message-question.png";
+  static const String pyIcon = "resources/images/shield-security.png";
+  static const String groupContactIcon = "resources/images/GroupContact.png";
+  static const String logoutIcon = "resources/images/logout.png";
+  static const String lockIcon = "resources/images/delete_account_icon.png";
+  static const String noNOTImage = "resources/images/No Notifications.png";
+  static const String updateimgeuser = "resources/images/Update_Image.png";
+  static const String logoutImage= "resources/images/Group11.png";
+  static const String circleGraph = "resources/images/Graph.png";
+  static const String tableGraph = "resources/images/Table.png";
+  static const String deleteImage = "resources/images/delete_img.png";
+  static const String arrowIcon = "resources/images/Icon-Color.png";
 
 }

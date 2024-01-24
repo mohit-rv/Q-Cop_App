@@ -64,17 +64,17 @@ class _WPReportScreenState extends State<WPReportScreen> {
   List<Map<String, dynamic>> reportLists= [
     {"reportType" : "issued", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
       "Raised Date" : "21/10/2023 12:07 PM","Maker" : "Maker1","Checker" : "Checker User",
-      "Last Updated by" : "Maker1", "Latest Comments" : "ok",
+      "Last Updated by" : "Maker1", "Latest Comments" : "ok","Work Order": "Text",
       "location1" : "Sector 1", "location2" : "Tower B", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
 
     {"reportType" : "issued", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
       "Raised Date" : "21/10/2023 12:07 PM","Maker" : "Maker1","Checker" : "Checker User",
-      "Last Updated by" : "Maker1", "Latest Comments" : "ok",
+      "Last Updated by" : "Maker1", "Latest Comments" : "ok","Work Order": "Text",
       "location1" : "Sector 1", "location2" : "Tower B", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
 
     {"reportType" : "issued", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Aluminum Framework", "checkList" : "Before Shuttering",
       "Raised Date" : "21/10/2023 12:07 PM","Maker" : "Maker1","Checker" : "Checker User",
-      "Last Updated by" : "Maker1", "Latest Comments" : "ok",
+      "Last Updated by" : "Maker1", "Latest Comments" : "ok","Work Order": "Text",
       "location1" : "Sector 1", "location2" : "Tower B", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
   ];
 
@@ -531,6 +531,41 @@ class _WPReportScreenState extends State<WPReportScreen> {
                       ),
                     ),
                   ),
+                ],
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
+              child: Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child:  Text(
+                      'Work Order',
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins Medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      reportLists[index]['Work Order'].toString(),
+                      style: TextStyle(
+                        color: Color(0xFF394A5D),
+                        fontSize: 13,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

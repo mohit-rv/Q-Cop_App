@@ -41,13 +41,13 @@ class _NCReportScreenState extends State<NCReportScreen> {
     {"reportType" : "Re-Open", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Observation",
       "checkList" : "M.Bed,C.Bed BED1 looks not properly fix issues", "Latest Comments" : "Rejection Comments by Checker",
       "Last Updated by": "Checker User", "Checker": "Checker User","Maker": "Maker User", "Exp Date": "06/10/2023\n38 Days remaining",
-       "Severity": "Medium",  "location1" : "Tower 1",
+       "Severity": "Medium", "Work Order": "Text", "location1" : "Tower 1",
       "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
 
     {"reportType" : "Re-Open", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}", "category" : "Observation",
       "checkList" : "M.Bed,C.Bed BED1 looks not properly fix issues", "Latest Comments" : "Rejection Comments by Checker",
       "Last Updated by": "Checker User", "Checker": "Checker User","Maker": "Maker User", "Exp Date": "06/10/2023\n38 Days remaining",
-      "Severity": "Medium",  "location1" : "Tower 1",
+      "Severity": "Medium","Work Order": "Text",  "location1" : "Tower 1",
       "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
 
   ];
@@ -675,7 +675,43 @@ class _NCReportScreenState extends State<NCReportScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width / 2 - 34,
                     child: Text(
-                      reportLists[index]['Checker'].toString(),
+                      reportLists[index]['Severity'].toString(),
+                      style: TextStyle(
+                        color: Color(0xFF394A5D),
+                        fontSize: 13,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      'Work Order',
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins Medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      reportLists[index]['Work Order'].toString(),
                       style: TextStyle(
                         color: Color(0xFF394A5D),
                         fontSize: 13,

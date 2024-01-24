@@ -219,7 +219,6 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-
                       getImage(ImageSource.gallery, 1);
                     },
                     child: Container(
@@ -295,6 +294,8 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
                 ],
               ),
             ),
+
+
             Container(
               margin: EdgeInsets.only(left: 15, right: 15, top: 6),
               child: Row(
@@ -874,6 +875,7 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
   }
 
 
+
   YYDialog YYDialogConfirm(BuildContext context) {
     return YYDialog().build(context)
       ..width = MediaQuery.of(context).size.width * 0.9
@@ -881,15 +883,12 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
     //..height = 500
       ..dismissCallBack = () {
 
-      }
-      ..widget(
+      }..widget(
           StatefulBuilder(
               builder: (BuildContext context, StateSetter mystate) {
                 return getConfirmWidget(mystate);
               })
-
-      )
-      ..animatedFunc = (child, animation) {
+      )..animatedFunc = (child, animation) {
         return FadeTransition(
           child: child,
           //scale: Tween(begin: 0.0, end: 1.0).animate(animation),
@@ -898,8 +897,10 @@ class _QACheckPointsScreenState extends State<QACheckPointsScreen> {
       };
   }
 
-    getConfirmWidget(StateSetter mystate) {
 
+
+
+    getConfirmWidget(StateSetter mystate) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(40),

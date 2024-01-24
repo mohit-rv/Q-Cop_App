@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 class DatabaseHandler {
 
   Future<Database> initializedDB() async {
-    String path = await getDatabasesPath();
+    String path = await getDatabasesPath();       //created path
     return openDatabase(
       join(path, "qCop.db"),
       onCreate: (database, version) async {
@@ -47,7 +47,6 @@ class DatabaseHandler {
 
       await db.execute("ALTER TABLE qa_location ADD location${i + 1} varchar(255)");
 
-
     }
 
     return db;
@@ -72,10 +71,6 @@ class DatabaseHandler {
       return null;
     }
   }
-
-
-
-////
 
 
 }

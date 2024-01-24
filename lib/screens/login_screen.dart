@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:qcop/resources/resources.dart';
@@ -17,37 +18,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   late TextEditingController _passwordController;
   late TextEditingController _userNameController;
-  late TextEditingController _projectController;
+  //late TextEditingController projectController;
 
   final FocusNode _passwordNode = FocusNode();
   final FocusNode _projectNode = FocusNode();
   final FocusNode _userNameNode = FocusNode();
-
-  bool _passwordIsVisible = false;
-  bool isConditionsChecked = false;
-  String appVersion = "";
-
-  List<String> projects = [
-    "Select",
-    "Test1",
-    "Test2",
-    "Test3",
-    "Test4",
-    "Test5",
-    "Test6",
-    "Test7",
-    "Test8",
-    "Test9",
-    "Test10",
-    "Test12",
-    "Test13",
-    "Test14",
-    "Test15",
-    "Test16",
-    "Test17",
-  ];
-
-  var selectedValue = "Select";
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [];
@@ -84,13 +59,68 @@ class _LoginScreenState extends State<LoginScreen> {
     return menuItems;
   }
 
+
+  bool _passwordIsVisible = false;
+  bool isConditionsChecked = false;
+  String appVersion = "";
+
+  TextEditingController projectController = TextEditingController();
+  var selectedValue = "Select";
+
+  List<String> projects = [
+    "Test1",
+    "Test2",
+    "Test3",
+    "Test4",
+    "Test5",
+    "Test6",
+    "Test7",
+    "Test8",
+    "Test9",
+    "Test10",
+    "Test12",
+    "Test13",
+    "Test14",
+    "Test15",
+    "Test16",
+    "Test17",
+  ];
+
+  List<String> nameList = [
+    "name1",
+    "name2",
+    "name3",
+    "name4",
+    "name45",
+    "name46",
+  ];
+
+
+  // static List<String> filterdProjectList(String query,) {
+  //   List<String> matches = [];
+  //   matches.addAll(projects);
+  //   matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
+  //   return matches;
+  // }
+
+  String selectedproject = "";
+
   @override
   void initState() {
     _passwordController = TextEditingController();
     _userNameController = TextEditingController();
-    _projectController = TextEditingController();
+    projectController = TextEditingController();
     getAppVersion();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _passwordController = TextEditingController();
+    _userNameController = TextEditingController();
+    projectController = TextEditingController();
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -142,20 +172,53 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20, left: 25),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Project',
-                        style: TextStyle(
-                          color: Color(0xFF191D31),
-                          fontSize: 15,
-                          fontFamily: 'Poppins Medium',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 20, left: 25),
+                    //   alignment: Alignment.centerLeft,
+                    //   child: Text(
+                    //     'Project',
+                    //     style: TextStyle(
+                    //       color: Color(0xFF191D31),
+                    //       fontSize: 15,
+                    //       fontFamily: 'Poppins Medium',
+                    //       fontWeight: FontWeight.w500,
+                    //       height: 0,
+                    //     ),
+                    //   ),
+                    // ),
+
+
+                    // TypeAheadField(
+                    //    builder: (context,_projectController,_projectNode){
+                    //      return TextFormField(
+                    //        controller: _projectController,
+                    //        focusNode: _projectNode,
+                    //        autofocus: true,
+                    //        decoration: InputDecoration(
+                    //          border: OutlineInputBorder(),
+                    //          hintText: 'Project'
+                    //        ),
+                    //      );
+                    //    },
+                    //   itemBuilder: (context,suggestion){
+                    //      return ListTile(
+                    //        leading: Icon(CupertinoIcons.refresh),
+                    //        title: Text(projects as String),
+                    //      );
+                    //
+                    //   },
+                    //    suggestionsCallback: (pattern){
+                    //      return projects.where((project) => project
+                    //          .toLowerCase().contains(pattern.toLowerCase())).toList();
+                    //    },
+                    //   onSelected: (suggestion) {
+                    //     setState(() {
+                    //       selectedproject = selectedproject;
+                    //     });
+                    //   },
+                    // ),
+
+
                     getProjectField(),
                     Container(
                       alignment: Alignment.centerLeft,
@@ -424,97 +487,65 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       child: Container(
         alignment: Alignment.centerLeft,
-        margin: EdgeInsets.only(left: 15, right: 15),
-        child: Row(
+        margin: EdgeInsets.only(left: 5, right: 15),
+        child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.only(right: 14),
-              child: Image(
-                image: AssetImage(Resources.projectIcon),
-              ),
-            ),
+
             Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<String>(
-                    //elevation: 8,
-                    selectedItemBuilder: (_) {
-                      return dropdownItems
-                          .map(
-                            (e) => Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                e.value.toString(),
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  color: Color(0xFF3C3C3C),
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins Medium',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          )
-                          .toList();
-                    },
-                    isExpanded: true,
-                    /*buttonStyleData: const ButtonStyleData(
-                      //padding: EdgeInsets.symmetric(horizontal: 16),
-                      height: 40,
-                      width: 60,
-                    ),*/
-                    iconStyleData: IconStyleData(
-                      icon: Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                      ),
-                      iconSize: 30,
-                      iconEnabledColor: HexColor("#A7A9B7"),
-                      iconDisabledColor: HexColor("#A7A9B7"),
-                    ),
-                    dropdownStyleData: DropdownStyleData(
-                      width: MediaQuery.of(context).size.width - 50,
-                      maxHeight: 300,
-                      //padding: EdgeInsets.only(left: 24, right: 24),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Colors.white,
-                      ),
-                      offset: const Offset(-50, -10),
-                      scrollbarTheme: ScrollbarThemeData(
-                        radius: const Radius.circular(40),
-                        thickness: MaterialStateProperty.all(6),
-                        thumbVisibility: MaterialStateProperty.all(true),
-                      ),
-                    ),
-                    menuItemStyleData: const MenuItemStyleData(
-                      height: 50,
-                      padding: EdgeInsets.only(left: 14, right: 14, bottom: 8, top: 8),
-                    ),
-                    /*icon: Container(
-                              margin: EdgeInsets.only(left: 10, right: 4),
-                              child: Image(
-                                image: AssetImage(Assets().downArrowIcon),
-                                width: 10,
-                                height: 10,
-                              ),
-                            ),*/
-                    //borderRadius: BorderRadius.circular(10),
-                    value: selectedValue,
-                    items: dropdownItems,
-                    //alignment: Alignment.center,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedValue = newValue!;
-                      });
-                    },
-                  ),
+              child: TypeAheadFormField(
+                textFieldConfiguration: TextFieldConfiguration(
+                   controller: projectController,
+                   decoration: InputDecoration(
+                     border: InputBorder.none,
+                     prefixIcon: Image(image: AssetImage(Resources.projectIcon),),
+                     hintText: "Project",
+                     hintStyle: TextStyle(
+                       color: Color(0xFFA7A9B7),
+                       fontSize: 14,
+                       fontFamily: 'Poppins Medium',
+                       fontWeight: FontWeight.w400,
+                       height: 0.13,
+                     ),
+                   )
                 ),
+                itemBuilder: (context,String suggestion){
+                  return ListTile(
+                    leading: Icon(CupertinoIcons.refresh,
+                        color:  Color(0xFFA7A9B7),
+                        size: 20,
+                    ),
+                    title: Text(suggestion,
+                    style: TextStyle(
+                      color: Color(0xFFA7A9B7),
+                      fontSize: 14,
+                      fontFamily: 'Poppins Medium',
+                      fontWeight: FontWeight.w400,
+                      height: 1,
+                    ),
+                    ),
+                  );
+                },
+                suggestionsCallback: (pattern){
+                  return projects.where((project) => project
+                         .toLowerCase().contains(pattern.toLowerCase())).toList();
+                },
+                onSuggestionSelected: (String suggestion) {
+                  setState(() {
+                    projectController.text = suggestion;
+                  //  selectedValue = suggestion;
+                    print("$suggestion");
+                  });
+                },
+                suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+
               ),
             ),
+
+
+
           ],
         ),
       ),
@@ -541,50 +572,111 @@ class _LoginScreenState extends State<LoginScreen> {
         margin: EdgeInsets.only(left: 15, right: 15),
         child: Container(
           alignment: Alignment.center,
-          child: TextFormField(
-            controller: _userNameController,
-            focusNode: _userNameNode,
-            onChanged: (text) {
-              setState(() {});
-            },
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Enter user name",
-                hintStyle: TextStyle(
-                  color: Color(0xFFA7A9B7),
-                  fontSize: 14,
-                  fontFamily: 'Poppins Medium',
-                  fontWeight: FontWeight.w400,
-                  height: 1,
-                ),
-                counterText: "",
-                prefixIcon: Container(
-                  margin: EdgeInsets.only(right: 8),
-                  child: const Image(
-                    image: AssetImage(Resources.userNameIcon),
-                    width: 13,
-                    height: 19,
+          // child: TextFormField(
+          //   controller: _userNameController,
+          //   focusNode: _userNameNode,
+          //   onChanged: (text) {
+          //     setState(() {});
+          //   },
+          //   decoration: InputDecoration(
+          //       border: InputBorder.none,
+          //       hintText: "Enter user name",
+          //       hintStyle: TextStyle(
+          //         color: Color(0xFFA7A9B7),
+          //         fontSize: 14,
+          //         fontFamily: 'Poppins Medium',
+          //         fontWeight: FontWeight.w400,
+          //         height: 1,
+          //       ),
+          //       counterText: "",
+          //       prefixIcon: Container(
+          //         margin: EdgeInsets.only(right: 8),
+          //         child: const Image(
+          //           image: AssetImage(Resources.userNameIcon),
+          //           width: 13,
+          //           height: 19,
+          //         ),
+          //       ),
+          //       prefixIconConstraints: BoxConstraints(
+          //         minWidth: 25,
+          //         maxHeight: 25,
+          //         minHeight: 25,
+          //         maxWidth: 25,
+          //       ),
+          //       isDense: true,
+          //       contentPadding: EdgeInsets.all(18)),
+          //   keyboardType: TextInputType.name,
+          //   maxLines: 1,
+          //   cursorColor: Color(0xFFA7A9B7),
+          //   style: TextStyle(
+          //     color: Color(0xFFA7A9B7),
+          //     fontSize: 14,
+          //     fontFamily: 'Poppins Medium',
+          //     fontWeight: FontWeight.w400,
+          //     height: 0,
+          //   ),
+          // ),
+
+            child: TypeAheadFormField(
+              textFieldConfiguration: TextFieldConfiguration(
+                  controller: _userNameController,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    prefixIcon: Container(
+                        margin: EdgeInsets.only(right: 8),
+                        child: Image(image: AssetImage(Resources.userNameIcon),height:5 ,width: 5,)),
+                    prefixIconConstraints: BoxConstraints(
+                    minWidth: 25,
+                    maxHeight: 25,
+                    minHeight: 25,
+                    maxWidth: 25,),
+                    hintText: "Enter user name",
+                    hintStyle: TextStyle(
+                      color: Color(0xFFA7A9B7),
+                      fontSize: 14,
+                      fontFamily: 'Poppins Medium',
+                      fontWeight: FontWeight.w400,
+                      height: 0.13,
+                    ),
+                  )
+              ),
+              itemBuilder: (context,String suggestion){
+                return ListTile(
+                  leading: Icon(CupertinoIcons.refresh,
+                    color:  Color(0xFFA7A9B7),
+                    size: 20,
                   ),
-                ),
-                prefixIconConstraints: BoxConstraints(
-                  minWidth: 25,
-                  maxHeight: 25,
-                  minHeight: 25,
-                  maxWidth: 25,
-                ),
-                isDense: true,
-                contentPadding: EdgeInsets.all(18)),
-            keyboardType: TextInputType.name,
-            maxLines: 1,
-            cursorColor: Color(0xFFA7A9B7),
-            style: TextStyle(
-              color: Color(0xFFA7A9B7),
-              fontSize: 14,
-              fontFamily: 'Poppins Medium',
-              fontWeight: FontWeight.w400,
-              height: 0,
+                  title: Text(suggestion,
+                    style: TextStyle(
+                      color: Color(0xFFA7A9B7),
+                      fontSize: 14,
+                      fontFamily: 'Poppins Medium',
+                      fontWeight: FontWeight.w400,
+                      height: 1,
+                    ),
+                  ),
+                );
+              },
+              suggestionsCallback: (pattern){
+                return nameList.where((project) => project
+                    .toLowerCase().contains(pattern.toLowerCase())).toList();
+              },
+              onSuggestionSelected: (String suggestion) {
+                setState(() {
+                  _userNameController.text = suggestion;
+                  //  selectedValue = suggestion;
+                  print("$suggestion");
+                });
+              },
+
+              suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12)
+              ),
+
             ),
-          ),
+
+
         ),
       ),
     );
@@ -624,4 +716,36 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
+}
+
+
+class stateServis {
+  List<String> projects1 = [
+    "Select",
+    "Test1",
+    "Test2",
+    "Test3",
+    "Test4",
+    "Test5",
+    "Test6",
+    "Test7",
+    "Test8",
+    "Test9",
+    "Test10",
+    "Test12",
+    "Test13",
+    "Test14",
+    "Test15",
+    "Test16",
+    "Test17",
+  ];
+
+  // static List<String> getSuggestions(String query) {
+  //   List<String> matches = List();
+  //   matches.addAll();
+  //   matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
+  //   return matches;
+  // }
 }

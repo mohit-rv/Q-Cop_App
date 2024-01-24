@@ -16,30 +16,25 @@ class MatReportScreen extends StatefulWidget {
 
 class _MatReportScreenState extends State<MatReportScreen> {
 
-  List<Map<String?, dynamic>> fieldLists= [
+  List<Map<String, dynamic>> fieldLists= [
     {"selected value": "Select", "list" : ["select","select2","select3","select4","select5"]}
   ];
 
-  List<Map<String?, dynamic>> reportLists= [
+  List<Map<String, dynamic>> reportLists= [
 
     {"reportType" : "new", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}",
-     "category" : "Vehicle", "checkList" : "Cb",
-     "Challan" : "Cv",
-     "Quantity": "120.0 BAG",
-     "Spec": "Zhb", "Raised by": "Store keeper Contractor",
-     "Last Updated by": "Store keeper Contractor",
-     "Latest Notes": "fh",
-     "location1" : "Tower 1", "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
+     "category" : "Vehicle", "checkList" : "Cb", "Challan" : "Cv", "Quantity": "120.0 BAG",
+     "Spec": "Zhb", "Raised by": "Store keeper Contractor", "Last Updated by": "Store keeper Contractor",
+     "Latest Notes": "fh", "Work Order": "Text",
+     "location1" : "Tower 1", "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13",
+      "isSynced" : false, "isLastEdited" : false},
 
-
-    {"reportType" : "new", "Date" : "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}",
-      "category" : "Vehicle", "checkList" : "Cb",
-      "Challan" : "Cv",
-      "Quantity": "120.0 BAG",
-      "Spec": "Zhb", "Raised by": "Store keeper Contractor",
-      "Last Updated by": "Store keeper Contractor",
-      "Latest Notes": "fh",
-      "location1" : "Tower 1", "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13", "isSynced" : true, "isLastEdited" : false},
+    {"reportType": "new","Date": "${DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now())}",
+    "category" : "Vehicle", "checkList" : "Cb", "Challan" : "Cv", "Quantity": "120.0 BAG",
+    "Spec": "Zhb", "Raised by": "Store keeper Contractor", "Last Updated by": "Store keeper Contractor",
+    "Latest Notes": "fh", "Work Order": "Text",
+    "location1" : "Tower 1", "location2" : "Floor 01", "location3" : "Flat 101", "location4" : "C13",
+    "isSynced" : true, "isLastEdited" : false},
 
   ];
 
@@ -117,7 +112,7 @@ class _MatReportScreenState extends State<MatReportScreen> {
       ),
       body: Column(
         children: [
-          getFilterField(),
+          //getFilterField(),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(top: 20),
@@ -297,7 +292,7 @@ class _MatReportScreenState extends State<MatReportScreen> {
                   margin: EdgeInsets.only(top: 15, left: 4),
                   alignment: Alignment.center,
                   decoration: ShapeDecoration(
-                    color: reportLists[index]['reportType'].toString() == "New" ? Color(0xFF0C3C88) : Color(0xFF15C059),
+                    color: reportLists[index]['reportType'].toString() == "New" ? Color(0xFFFE69B3) : Color(0xFF0C3C88),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(62),
                     ),
@@ -525,91 +520,6 @@ class _MatReportScreenState extends State<MatReportScreen> {
               ),
             ),
 
-
-            // Container(
-            //   margin: EdgeInsets.only(left: 15, right: 15, top: 6),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //     children: [
-            //       InkWell(
-            //         onTap: () {
-            //
-            //           getImage(ImageSource.gallery, 1);
-            //         },
-            //         child: Container(
-            //           width: MediaQuery.of(context).size.width/3 - 30,
-            //           height: 102,
-            //           decoration: ShapeDecoration(
-            //               color: Color(0xFFF5F5F5),
-            //               shape: RoundedRectangleBorder(
-            //                 side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
-            //                 borderRadius: BorderRadius.circular(4),
-            //               ),
-            //               image: photo1.isEmpty ?  DecorationImage(
-            //                 image: AssetImage(Resources.addPhotoImg),
-            //                 fit: BoxFit.cover,
-            //               ) :
-            //               DecorationImage(
-            //                 image: FileImage(File(photo1)),
-            //                 fit: BoxFit.cover,
-            //               )
-            //           ),
-            //         ),
-            //       ),
-            //       InkWell(
-            //         onTap: () {
-            //
-            //           getImage(ImageSource.gallery, 2);
-            //         },
-            //         child: Container(
-            //           width: MediaQuery.of(context).size.width/3 - 30,
-            //           height: 102,
-            //           decoration: ShapeDecoration(
-            //               color: Color(0xFFF5F5F5),
-            //               shape: RoundedRectangleBorder(
-            //                 side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
-            //                 borderRadius: BorderRadius.circular(4),
-            //               ),
-            //               image: photo2.isEmpty ?  DecorationImage(
-            //                 image: AssetImage(Resources.addPhotoImg),
-            //                 fit: BoxFit.cover,
-            //               ) :
-            //               DecorationImage(
-            //                 image: FileImage(File(photo2)),
-            //                 fit: BoxFit.cover,
-            //               )
-            //           ),
-            //         ),
-            //       ),
-            //       InkWell(
-            //         onTap: () {
-            //
-            //           getImage(ImageSource.gallery, 3);
-            //         },
-            //         child: Container(
-            //           width: MediaQuery.of(context).size.width/3 - 30,
-            //           height: 102,
-            //           decoration: ShapeDecoration(
-            //               color: Color(0xFFF5F5F5),
-            //               shape: RoundedRectangleBorder(
-            //                 side: BorderSide(width: 1, color: Color(0x4C3C3C43)),
-            //                 borderRadius: BorderRadius.circular(4),
-            //               ),
-            //               image: photo3.isEmpty ?  DecorationImage(
-            //                 image: AssetImage(Resources.addPhotoImg),
-            //                 fit: BoxFit.cover,
-            //               ) :
-            //               DecorationImage(
-            //                 image: FileImage(File(photo3)),
-            //                 fit: BoxFit.cover,
-            //               )
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-
             Container(
               margin: EdgeInsets.only(top: 10, left: 17, right: 17),
               child: Row(
@@ -683,6 +593,41 @@ class _MatReportScreenState extends State<MatReportScreen> {
               ),
             ),
 
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 17, right: 17),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      'Work Order',
+                      style: TextStyle(
+                        color: Color(0xBC63676F),
+                        fontSize: 12,
+                        fontFamily: 'Poppins Medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                        letterSpacing: -0.36,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2 - 34,
+                    child: Text(
+                      reportLists[index]['Work Order'].toString(),
+                      style: TextStyle(
+                        color: Color(0xFF394A5D),
+                        fontSize: 13,
+                        fontFamily: 'Poppins medium',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
             Container(
               margin: EdgeInsets.only(top: 18, left: 15, right: 15),
