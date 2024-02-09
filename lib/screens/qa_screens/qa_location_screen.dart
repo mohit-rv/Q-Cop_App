@@ -393,7 +393,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
   }
 
   getFieldsList() {
-     if(opt1isSelected==true){
+
        return Container(
            child: ListView.builder(
                shrinkWrap: true,
@@ -584,9 +584,6 @@ class _QALocationScreenState extends State<QALocationScreen> {
                }
            )
        );
-     }else {
-       return Container();
-     }
 
   }
 

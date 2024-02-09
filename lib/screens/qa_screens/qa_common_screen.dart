@@ -25,7 +25,6 @@ class _QACommonScreenState extends State<QACommonScreen> {
 
   @override
   void initState() {
-
     onChange = (value) {
       setState(() {
         isLocSelected = false;
@@ -34,7 +33,6 @@ class _QACommonScreenState extends State<QACommonScreen> {
         isCategorySelected = value;
       });
     };
-
     //getSelectionData();
     super.initState();
   }
@@ -59,7 +57,7 @@ class _QACommonScreenState extends State<QACommonScreen> {
               color: Colors.white,
             ),
             child: Container(
-              color: Colors.transparent,
+              color: Colors.white,
               margin: EdgeInsets.only(top: 30),
               child: isLocSelected ? QALocationScreen(onChange: onChange,) :
               isCategorySelected ? QACategoryMainScreen() :

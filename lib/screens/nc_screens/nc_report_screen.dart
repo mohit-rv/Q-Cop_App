@@ -808,6 +808,7 @@ class _NCReportScreenState extends State<NCReportScreen> {
                 ],
               ),
             ),
+
             Container(
               margin: EdgeInsets.only(top: 27, left: 17, right: 17, bottom: 20),
               child: Row(

@@ -54,6 +54,7 @@ dependencies:
   pie_chart: ^5.4.0
   flutter_typeahead: ^4.8.0
   fluttertoast: ^8.2.4
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:

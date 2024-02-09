@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 class UserModel {
     final int? CompanyID;
-    final Uint8List? uid;
+    final int? uid;
     final String LoginName;
     final String Password;
     final String FirstName;
