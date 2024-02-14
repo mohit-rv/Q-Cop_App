@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qcop/resources/resources.dart';
+import 'package:qcop/screens/download_screen.dart';
 import 'package:qcop/screens/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'dashboard_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,13 +15,33 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool isLoggedIn = false;
+  void checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (isLoggedIn) {
+      print('user loggedin');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => DashboardScreen()),
+      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => DownloadScreen()),
+      // );
+    }else {
+      print('not log in');
+      Navigator.of(context).pushReplacement(CupertinoPageRoute(builder: (_) => LoginScreen()));
+    }
+  }
 
   @override
   void initState() {
 
     Future.delayed(Duration(seconds: 3), () {
-
-      Navigator.of(context).pushReplacement(CupertinoPageRoute(builder: (_) => LoginScreen()));
+      checkLoginStatus();
+     // Navigator.of(context).pushReplacement(CupertinoPageRoute(builder: (_) => LoginScreen()));
 
     });
 

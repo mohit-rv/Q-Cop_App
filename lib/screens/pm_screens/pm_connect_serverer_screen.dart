@@ -1,16 +1,16 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:qcop/resources/resources.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class WPConnectScreen extends StatefulWidget {
-  const WPConnectScreen({super.key});
+import '../../resources/resources.dart';
+
+class PMServerScreen extends StatefulWidget {
+  const PMServerScreen({super.key});
 
   @override
-  State<WPConnectScreen> createState() => _WPConnectScreenState();
+  State<PMServerScreen> createState() => _PMServerScreenState();
 }
 
-class _WPConnectScreenState extends State<WPConnectScreen> {
+class _PMServerScreenState extends State<PMServerScreen> {
 
   List<Map<String, dynamic>> fieldLists = [
     {"selectedValue" : "Download Data", "lists" : ["Download Data", "Level 2", "Level 3", "Level 4", "Level 5"]},
@@ -20,53 +20,25 @@ class _WPConnectScreenState extends State<WPConnectScreen> {
     {"selectedValue" : "Level 5", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7"]},
   ];
 
-
   bool isUserInfoChecked = false;
   bool isCheckListInfoChecked = true;
   bool isLevelsInfoChecked = true;
   bool isInspInfoChecked = true;
 
-
-  List<DropdownMenuItem<String>> dropdownItems(index) {
-    List<DropdownMenuItem<String>> menuItems = [];
-
-    for (var i in fieldLists[index]['lists']) {
-      menuItems.add(DropdownMenuItem(
-          value: i,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 40,
-              padding: EdgeInsets.only(left: 6, right: 6),
-              alignment: Alignment.centerLeft,
-              decoration: ShapeDecoration(
-                color: fieldLists[index]['selectedValue'] == i ? Color(0xFF0C3C89) : Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-              ),
-              child: Text(
-                i.toString(),
-                style: TextStyle(
-                  color: fieldLists[index]['selectedValue'] == i ? Colors.white : Color(0xFFA7A9B7),
-                  fontSize: 14,
-                  fontFamily: 'Poppins medium',
-                  fontWeight: FontWeight.w500,
-                  height: 1,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          )));
-    }
-
-    return menuItems;
-  }
+  TextEditingController downloadController = TextEditingController();
+  List<dynamic> _downloadList = [
+    "Download1",
+    "Download11",
+    "Download12",
+    "Download13",
+    "Download14",
+    "Download15",
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Card(
           color: Colors.white,
@@ -148,7 +120,7 @@ class _WPConnectScreenState extends State<WPConnectScreen> {
                     ],
                   ),
                 ),
-                getDownloadDropdown(),
+                getDownloadSuggestion(),
                 getUserInfoCheck(),
                 getCheckListInfoCheck(),
                 getLevelsInfoCheck(),
@@ -199,118 +171,53 @@ class _WPConnectScreenState extends State<WPConnectScreen> {
     );
   }
 
-
-  getDownloadDropdown() {
-    var index = 0;
+  getUserInfoCheck() {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 54,
-      margin: EdgeInsets.only(left: 24, right: 24, top: 34),
-      decoration: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 1, color: Color(0xFF0C3C89)),
-          borderRadius: BorderRadius.circular(4),
-        ),
-      ),
-      child: Container(
-        alignment: Alignment.centerLeft,
-        margin: EdgeInsets.only(left: 15, right: 15),
-        child: Row(
-          children: [
-            /*Container(
-                  margin: EdgeInsets.only(right: 14),
-                  child: Image(
-                    image: AssetImage(Resources.projectIcon),
-                  ),
-                ),*/
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<String>(
-                    //elevation: 8,
-                    selectedItemBuilder: (_) {
-                      return dropdownItems(index)
-                          .map(
-                            (e) => Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            e.value.toString(),
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                              color: Color(0xFF0C3C89),
-                              fontSize: 12,
-                              fontFamily: 'Poppins Medium',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                              letterSpacing: 0.05,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      )
-                          .toList();
-                    },
-                    isExpanded: true,
-                    /*buttonStyleData: const ButtonStyleData(
-                      //padding: EdgeInsets.symmetric(horizontal: 16),
-                      height: 40,
-                      width: 60,
-                    ),*/
-                    iconStyleData: IconStyleData(
-                      icon: Icon(
-                        Icons.arrow_drop_down_outlined,
-                      ),
-                      iconSize: 30,
-                      iconEnabledColor: HexColor("#0C3C89"),
-                      iconDisabledColor: HexColor("#0C3C89"),
-                    ),
-                    dropdownStyleData: DropdownStyleData(
-                      width: MediaQuery.of(context).size.width - 80,
-                      maxHeight: 150,
-                      isOverButton: false,
-                      //padding: EdgeInsets.only(left: 24, right: 24),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Colors.white,
-                      ),
-                      offset: const Offset(-15, -10),
-                      scrollbarTheme: ScrollbarThemeData(
-                        radius: const Radius.circular(40),
-                        thickness: MaterialStateProperty.all(6),
-                        thumbVisibility:
-                        MaterialStateProperty.all(true),
-                      ),
-                    ),
-                    menuItemStyleData: const MenuItemStyleData(
-                      height: 50,
-                      padding: EdgeInsets.only(
-                          left: 14, right: 14, bottom: 8, top: 8),
-                    ),
-                    /*icon: Container(
-                              margin: EdgeInsets.only(left: 10, right: 4),
-                              child: Image(
-                                image: AssetImage(Assets().downArrowIcon),
-                                width: 10,
-                                height: 10,
-                              ),
-                            ),*/
-                    //borderRadius: BorderRadius.circular(10),
-                    value: fieldLists[index]['selectedValue'].toString(),
-                    items: dropdownItems(index),
-                    //alignment: Alignment.center,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        fieldLists[index]['selectedValue'] = newValue!;
-                      });
-                    },
-                  ),
-                ),
+      margin: const EdgeInsets.only(top: 13, left: 12),
+      child: Row(
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            child: Checkbox(
+              checkColor: Colors.white,
+              visualDensity: VisualDensity(vertical: -4),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
               ),
+              fillColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return const Color(0xFF005AC6);
+                    }
+                    return Colors.white;
+                  }),
+              side: const BorderSide(
+                color: Color(0xFF005AC6),
+                width: 1,
+              ),
+              value: isUserInfoChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isUserInfoChecked = value!;
+                });
+              },
             ),
-          ],
-        ),
+          ),
+          Container(
+              margin: const EdgeInsets.only(right: 20),
+              child: Text(
+                'Users Info',
+                style: TextStyle(
+                  color: Color(0xBC63676F),
+                  fontSize: 12,
+                  fontFamily: 'Poppins Medium',
+                  fontWeight: FontWeight.w500,
+                  height: 0,
+                  letterSpacing: -0.36,
+                ),
+              )
+          ),
+        ],
       ),
     );
   }
@@ -468,56 +375,194 @@ class _WPConnectScreenState extends State<WPConnectScreen> {
     );
   }
 
-  getUserInfoCheck() {
+  getDownloadSuggestion() {
     return Container(
-      margin: const EdgeInsets.only(top: 5, left: 12),
-      child: Row(
-        children: [
-          Container(
-            alignment: Alignment.topLeft,
-            child: Checkbox(
-              checkColor: Colors.white,
-              visualDensity: VisualDensity(vertical: -4),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              fillColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return const Color(0xFF005AC6);
-                    }
-                    return Colors.white;
-                  }),
-              side: const BorderSide(
-                color: Color(0xFF005AC6),
-                width: 1,
-              ),
-              value: isUserInfoChecked,
-              onChanged: (bool? value) {
-                setState(() {
-                  isUserInfoChecked = value!;
-                });
-              },
-            ),
-          ),
-          Container(
-              margin: const EdgeInsets.only(right: 20),
-              child: Text(
-                'Users Info',
-                style: TextStyle(
-                  color: Color(0xBC63676F),
-                  fontSize: 12,
-                  fontFamily: 'Poppins Medium',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                  letterSpacing: -0.36,
+        child: ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            // itemCount: fieldLists.length,
+            itemCount: 1,
+            itemBuilder: (context, index) {
+              // var index = index0fField;
+              // if(fieldLists[index]['selectedValue']!=['lists'] && index<5) {
+              // return fieldLists[index]['isSelected'] ?
+              return  Container(
+                width: MediaQuery.of(context).size.width,
+                height: 54,
+                margin: EdgeInsets.only(left: 24, right: 24, top: 20),
+                decoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 1, color: Color(0xFF0C3C89)),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                 ),
-              )
-          ),
-        ],
-      ),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  // child: Row(
+                  //   children: [
+                  /*Container(
+                  margin: EdgeInsets.only(right: 14),
+                  child: Image(
+                    image: AssetImage(Resources.projectIcon),
+                  ),
+                ),*/
+                  // Expanded(
+                  //   child: Container(
+                  //     alignment: Alignment.center,
+                  //     child: DropdownButtonHideUnderline(      //to remove underline
+                  //       child: DropdownButton2<String>(
+                  //         //elevation: 8,
+                  //         selectedItemBuilder: (_) {
+                  //           return dropdownItems(index).map(
+                  //                 (e) => Align(
+                  //               alignment: Alignment.centerLeft,
+                  //               child: Text(
+                  //                 e.value.toString(),
+                  //                 textAlign: TextAlign.start,
+                  //                 style: const TextStyle(
+                  //                   color: Color(0xFF3C3C3C),
+                  //                   fontSize: 14,
+                  //                   fontFamily: 'Poppins Medium',
+                  //                   fontWeight: FontWeight.w400,
+                  //                   height: 0,
+                  //                 ),
+                  //                 maxLines: 1,
+                  //                 overflow: TextOverflow.ellipsis,
+                  //               ),
+                  //             ),
+                  //           ).toList();
+                  //         },
+                  //         isExpanded: true,
+                  //         /*buttonStyleData: const ButtonStyleData(
+                  //   //padding: EdgeInsets.symmetric(horizontal: 16),
+                  //   height: 40,
+                  //   width: 60,
+                  // ),*/
+                  //         iconStyleData: IconStyleData(
+                  //           icon: Icon(
+                  //             Icons.arrow_drop_down_outlined,
+                  //           ),
+                  //           iconSize: 30,
+                  //           iconEnabledColor: HexColor("#0C3C89"),
+                  //           iconDisabledColor: HexColor("#0C3C89"),
+                  //         ),
+                  //         dropdownStyleData: DropdownStyleData(
+                  //           width: MediaQuery.of(context).size.width - 50,
+                  //           maxHeight: 150,
+                  //           isOverButton: false,
+                  //           //padding: EdgeInsets.only(left: 24, right: 24),
+                  //           decoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.circular(6),
+                  //             color: Colors.white,
+                  //           ),
+                  //           offset: const Offset(-14, -10),
+                  //           scrollbarTheme: ScrollbarThemeData(      //side srollbar dor showing screen length
+                  //             radius: const Radius.circular(40),
+                  //             thickness: MaterialStateProperty.all(6),
+                  //             thumbVisibility:
+                  //             MaterialStateProperty.all(true),
+                  //           ),
+                  //         ),
+                  //         menuItemStyleData: const MenuItemStyleData(
+                  //           height: 50,
+                  //           padding: EdgeInsets.only(
+                  //               left: 14, right: 14, bottom: 8, top: 8),
+                  //         ),
+                  //         /*icon: Container(
+                  //           margin: EdgeInsets.only(left: 10, right: 4),
+                  //           child: Image(
+                  //             image: AssetImage(Assets().downArrowIcon),
+                  //             width: 10,
+                  //             height: 10,
+                  //           ),
+                  //         ),*/
+                  //         //borderRadius: BorderRadius.circular(10),
+                  //
+                  //         value: fieldLists[index]['selectedValue'].toString(),
+                  //         items: dropdownItems(index),
+                  //           //alignment: Alignment.center,
+                  //         onChanged: (String? newValue) {
+                  //           setState(() {
+                  //             fieldLists[index]['selectedValue'] = newValue!;
+                  //             print(newValue);
+                  //             print(fieldLists[index]['selectedValue'].toString());   //condition to generate next dropdown
+                  //             if (index != fieldLists.length-1) {
+                  //               fieldLists[index+1]['isSelected'] = true;
+                  //             }
+                  //           });
+                  //         }
+                  //       ),
+                  //     ),
+                  //
+                  //
+                  //
+                  //   ),
+                  // ),
+
+
+                  child: TypeAheadFormField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                        controller: downloadController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Level 1",
+                          hintStyle: TextStyle(
+                            color: Color(0xFFA7A9B7),
+                            fontSize: 14,
+                            fontFamily: 'Poppins Medium',
+                            fontWeight: FontWeight.w400,
+                            height: 0,
+                          ),
+                        )
+                    ),
+                    itemBuilder: (context,suggestion){
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.only(top:20,bottom: 10),
+                        child: Text(suggestion,
+                          style: TextStyle(
+                            color: Color(0xFFA7A9B7),
+                            fontSize: 14,
+                            fontFamily: 'Poppins Medium',
+                            fontWeight: FontWeight.w400,
+                            height: 1,
+                          ),
+                        ),
+                      );
+
+                    },
+                    suggestionsCallback: (pattern){
+                      return _downloadList.where((list) => list
+                          .toLowerCase().contains(pattern.toLowerCase())).toList();
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      setState(() {
+                        downloadController.text = suggestion;
+                        // fieldLists[index]['selectedValue'] = suggestion;
+                        print("$suggestion");
+                        // if (index != fieldLists.length-1) {
+                        // fieldLists[index+1]['isSelected'] = true;
+                        //  }
+                      });
+                    },
+
+                    suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+
+                  ),
+
+
+
+                ),
+              );
+              // Container();
+
+            }
+        )
     );
   }
-
 
 }

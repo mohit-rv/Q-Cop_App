@@ -4,8 +4,24 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:qcop/api_service/api_service.dart';
+import 'package:qcop/api_service/response/level2_response_model.dart';
+import 'package:qcop/api_service/response/level3_response_model.dart';
+import 'package:qcop/api_service/response/level4_response_model.dart';
+import 'package:qcop/api_service/response/level5_response_model.dart';
+import 'package:qcop/api_service/response/level6_response_model.dart';
+import 'package:qcop/api_service/response/qa_level1_responese_model.dart';
+import 'package:qcop/local_database/database.dart';
 import 'package:qcop/local_database/database_handler.dart';
+import 'package:qcop/local_database/models/Level5_model.dart';
+import 'package:qcop/local_database/models/level2_model.dart';
+import 'package:qcop/local_database/models/level3_model.dart';
+import 'package:qcop/local_database/models/level4_model.dart';
+import 'package:qcop/local_database/models/level6_model.dart';
+import 'package:qcop/local_database/models/qa_level1_model.dart';
 import 'package:qcop/resources/resources.dart';
+
+import '../../api_service/response/level3_response_model.dart';
 
 class QALocationScreen extends StatefulWidget {
 
@@ -28,6 +44,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
   bool opt6isSelected= false;
 
 
+  List<QAlevel1Model> level1List = [];
 
   int visibleFields = 1;
   List<TextEditingController> controllers = List.generate(6, (_) => TextEditingController());
@@ -112,9 +129,186 @@ class _QALocationScreenState extends State<QALocationScreen> {
   FocusNode _searchNode = FocusNode();
 
 
+  void fetchData() async {
+    ApiService apiService = ApiService();
+    int prjID = 1;
+    try {
+      List<Level6ResponseModel>? data = await apiService.getLevel6(prjID);
+      if(data!=null){
+        for(var i in data ) {
+          print('level5Name: ${i.level6Name}');
+        }
+      }
+      print('Data: $data');
+      // Handle the data as needed
+    } catch (e) {
+      // Handle errors
+      print('Error: $e');
+    }
+  }
+
+  void getLocation1Field() async{
+    level1List = await SqfDataBase().getlevel1data();
+    if(level1List.isEmpty){
+      List<Qalevel>? levelList =await ApiService().getQAlevel1(2);
+      if(levelList!=null){
+        for(var i in levelList){
+          QAlevel1Model level1Data = QAlevel1Model(
+              level1ID: i.level1ID,
+              pid: i.pid,
+              level1Name: i.level1Name ?? "",
+          );
+          await SqfDataBase().insertLevel1(level1Data);
+        }
+
+        for(var i in level1List){
+          print('level1Name db: ${i.level1Name}');
+        }
+      }
+
+    }else{
+
+      for(var i in level1List){
+        print('level1Name db: ${i.level1Name}');
+      }
+    }
+    //print('from localdb: $level1List');
+  }
+
+  void getLocation2Field() async{
+    List<Level2Model> level2List = await SqfDataBase().getLevel2Data();
+    if(level2List.isEmpty){
+      List<Level2Response>? level2Response = await ApiService().getLevel2(2);
+      if(level2Response!=null){
+        for(var i in level2Response){
+          Level2Model level2Data = Level2Model(
+              level2ID: i.level2ID,
+              level1ID: i.level1ID,
+              level2Name: i.level2Name ?? "",
+              Active: i.active ?? "",
+          );
+          await SqfDataBase().insertLevel2(level2Data);
+        }
+        for(var i in level2List){
+            print('level2Name: ${i.level2Name}');
+        }
+
+      }
+    } else{
+      for(var i in level2List){
+        print('level2Name else: ${i.level2Name}');
+      }
+    }
+  }
+
+  void getLocation3Field() async{
+     List<Level3Model> Level3Data = await SqfDataBase().getLevel3DModel();
+     if(Level3Data.isEmpty){
+       List<level3Response>? Level3Response = await ApiService().getLevel3(1);
+       if(Level3Response!=null){
+         for(var i in Level3Response){
+           Level3Model level3Data = Level3Model(
+               level2ID: i.level2ID,
+               level3ID: i.level3ID,
+               level3Name: i.level3Name ?? ""
+           );
+           await SqfDataBase().insertLevel3(level3Data);
+         }
+
+         for(var i in Level3Data){
+           print('level3Name: ${i.level3Name}');
+         }
+       }
+     }else {
+       for(var i in Level3Data){
+         print('level3Name else: ${i.level3Name}');
+       }
+     }
+  }
+
+  void getLoction4Field() async{
+    List<Level4Model> level4List = await SqfDataBase().getLevel4Model();
+    if(level4List.isEmpty){
+      List<Level4ResponseModel>? level4Response = await ApiService().getLevel4(2);
+      if(level4Response!= null){
+        for(var i in level4Response){
+          Level4Model level4Data = Level4Model(
+              level4ID: i.level4ID,
+              level3ID: i.level3Id,
+              level4Name: i.level4Name ?? ""
+          );
+          await SqfDataBase().insertLevel4(level4Data);
+        }
+        for(var i in level4List){
+          print('level4Name db: ${i.level4Name}');
+        }
+      }
+    }else {
+      for(var i in level4List){
+        print('level4Name db else: ${i.level4Name}');
+      }
+    }
+  }
+
+  void getLocation5Field() async{
+    List<Level5Model> level5List = await SqfDataBase().getLevel5Model();
+    if(level5List.isEmpty){
+      List<Level5ResponseModel>? level5Response = await ApiService().getLevel5(2);
+      if(level5Response!=null){
+        for(var i in level5Response){
+          Level5Model level5Data = Level5Model(
+              level5ID: i.level5ID,
+              level4ID: i.level4ID,
+              level5Name: i.level5Name ?? ""
+          );
+          await SqfDataBase().insertLevel5(level5Data);
+        }
+
+        for(var i in level5List){
+          print('level5Name db: ${i.level5Name}');
+        }
+
+      }
+    }else {
+      for(var i in level5List){
+        print('level5Name db el: ${i.level5Name}');
+      }
+    }
+  }
+
+  void getLocation6Field()  async{
+    List<Level6Model> level6List = await SqfDataBase().getLevel6Model();
+    if(level6List.isEmpty){
+      List<Level6ResponseModel>? Level6Response = await ApiService().getLevel6(1);
+      if(Level6Response!=null){
+        for(var i in Level6Response){
+           Level6Model Level6Data = Level6Model(
+               level6ID: i.level6ID,
+               level5ID: i.level5ID,
+               level6Name: i.level6Name ?? ""
+           );
+           await SqfDataBase().insertLevel6(Level6Data);
+        }
+        for(var i in level6List){
+          print('level6Name : ${i.level6Name}');
+        }
+      }
+    }else{
+      for(var i in level6List){
+        print('level6Name db el: ${i.level6Name}');
+      }
+    }
+  }
 
   @override
   void initState() {
+    getLocation1Field();
+    getLocation2Field();
+    getLocation3Field();
+    getLoction4Field();
+    getLocation5Field();
+    getLocation6Field();
+    fetchData();
     _searchController = TextEditingController();
     super.initState();
   }
@@ -1040,9 +1234,6 @@ class _QALocationScreenState extends State<QALocationScreen> {
 
 
   }
-
-
-
 
   void saveDataInLocal() async {
 

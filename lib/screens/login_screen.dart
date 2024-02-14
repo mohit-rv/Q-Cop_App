@@ -17,6 +17,7 @@ import 'package:qcop/local_database/models/usermapping.dart';
 import 'package:qcop/local_database/models/users_model.dart';
 import 'package:qcop/resources/resources.dart';
 import 'package:qcop/screens/dashboard_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../local_database/database.dart';
 
@@ -30,11 +31,77 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  var pass;
+  void checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+    if (isLoggedIn) {
+      print('user loggedin');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => DashboardScreen()),
+      );
+    }
+  }
+
+  void checkRememberMeStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool rememberMe = prefs.getBool('rememberMe') ?? false;
+
+    if (rememberMe) {
+      String savedUsername = prefs.getString('username') ?? '';
+      String savedPassword = prefs.getString('password') ?? '';
+
+      _userNameController.text = savedUsername;
+      _passwordController.text = savedPassword;
+
+      // Optionally, automatically attempt login with the saved credentials here
+    }
+  }
+
+  void _login() async {
+    // Validate login credentials (you can replace this with your authentication logic)
+    // For simplicity, just checking if username and password are not empty
+    if ( _userNameController.text.isNotEmpty && _passwordController.text==pass ) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('isLoggedIn', true);
+
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => DashboardScreen()),
+      // );
+      //prefs.setString('password', _passwordController.text);
+      print('remember me ');
+    }
+  }
+
+
+  // void _login() async {
+  //   // Validate login credentials (replace with your authentication logic)
+  //   if (_userNameController.text.isNotEmpty && _passwordController.text.isNotEmpty) {
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //
+  //     // Save login credentials if "Remember Me" is selected
+  //     if (isConditionsChecked) {
+  //       prefs.setBool('rememberMe', true);
+  //       prefs.setString('username', _userNameController.text);
+  //       prefs.setString('password', _passwordController.text);
+  //     } else {
+  //       // If "Remember Me" is not selected, clear saved credentials
+  //       prefs.setBool('rememberMe', false);
+  //       prefs.remove('username');
+  //       prefs.remove('password');
+  //     }
+  //
+  //     // Proceed with your login logic here
+  //   }
+  // }
+
+  String pass= "";
   var selectedPid;
   var mapUID;
   var userName;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+ // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late TextEditingController _passwordController;
   late TextEditingController _userNameController;
   late TextEditingController projectController;
@@ -55,15 +122,13 @@ class _LoginScreenState extends State<LoginScreen> {
    final List<int> projectListID = [];
 
    final List<dynamic> projectName = [];
-
-
-  final List<String> userMappingsList =[];
+   final List<String> userMappingsList =[];
   //var selectedProjectName = "";
-  final List<String> userList = [];
+   final List<String> userList = [];
  // final List<String> usersList = [];
-  Set<String> uniqueUserSet = Set<String>();
+   Set<String> uniqueUserSet = Set<String>();
 
-  final List<int>   getUID = [];
+   final List<int>   getUID = [];
   List<ProjectModel> projects = [];
   List<UserModel> Users = [];
   List<UserMappingModel> UsermappingModel = [];
@@ -102,6 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
        if( items.LoginName == selectedUser){
          print('password of selected User: ${items.Password}');
          pass= items.Password;
+         break;
        }
      }
      return null;
@@ -132,21 +198,13 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordNode= FocusNode();
     _userNameNode= FocusNode();
     _projectNode= FocusNode();
-
+    checkLoginStatus();
     getAppVersion();
-
    getProjectName();
-
-    //getUserMapONprojectID();
     fetchDataUserMapping();
-
-     //getUsersListBasedOnUIDMap();
+     getUsersListBasedOnUID();
      SqfDataBase().getProjects();
-
   //  SQDatabase?.insertProjectApiModel(ProjectListResponseModel, projectName);
-
-
-
     super.initState();
   }
 
@@ -180,8 +238,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 minHeight: constraints.minHeight,
               ),
               child: IntrinsicHeight(
-                child: Form(
-                  key: _formKey,
                   child: Column(
                     children: [
                       Container(
@@ -352,7 +408,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     ],
                   ),
-                ),
               ),
             ),
           );
@@ -405,7 +460,9 @@ class _LoginScreenState extends State<LoginScreen> {
               value: isConditionsChecked,
               onChanged: (bool? value) {
                 setState(() {
-                  isConditionsChecked = value!;
+                  isConditionsChecked = value ?? false;
+                    print('CheckBox Selected');
+                    _login();
                 });
               },
             ),
@@ -454,26 +511,6 @@ class _LoginScreenState extends State<LoginScreen> {
             focusNode: _passwordNode,
             onChanged: (text) {
               setState(() {});
-            },
-            validator: (value){
-              if(value==null || value.isEmpty){
-                Fluttertoast.showToast(
-                  msg: "Select Project Field",
-                  // gravity: ToastGravity.BOTTOM,
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                );
-              } else if(value==pass){
-                Fluttertoast.showToast(
-                  msg: "Enter valid Password",
-                  // gravity: ToastGravity.BOTTOM,
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                );
-              }
-              else{
-                return null;
-              }
             },
             decoration: InputDecoration(
                 border: InputBorder.none,
@@ -560,18 +597,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
             Expanded(
               child: TypeAheadFormField(
-
-                validator: (value) {
-                  if (value==null || value.isEmpty){
-                    Fluttertoast.showToast(
-                      msg: "Select Project Field",
-                      // gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                    );
-                  }
-                  return null;   //else return null
-                },
                 textFieldConfiguration: TextFieldConfiguration(
                   focusNode: _projectNode,
                   // autofocus: true,
@@ -705,16 +730,6 @@ class _LoginScreenState extends State<LoginScreen> {
           // ),
 
             child: TypeAheadFormField(
-              validator: (value) {
-                if (value==null || value.isEmpty){
-                 Fluttertoast.showToast(
-                     msg: "Please select UserName field",
-                     backgroundColor: Colors.red,
-                     textColor: Colors.white,
-                 );
-                }
-                return null;   //else return null
-              },
               textFieldConfiguration: TextFieldConfiguration(
                   focusNode: _userNameNode,
                 //  autofocus: true,
@@ -786,7 +801,55 @@ class _LoginScreenState extends State<LoginScreen> {
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      onTap: () async{
+      onTap: () {
+
+        if(projectController.text.isEmpty){
+          _projectNode.requestFocus();
+          Fluttertoast.showToast(
+                  msg: "Please Select Project ",
+                  // gravity: ToastGravity.BOTTOM,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                );
+        }else if (_userNameController.text.isEmpty){
+          _userNameNode.requestFocus();
+          Fluttertoast.showToast(
+            msg: "Please Select User",
+            // gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+          );
+        }else if (_passwordController.text.isEmpty) {
+          _passwordNode.requestFocus();
+          Fluttertoast.showToast(
+            msg: "Please Enter the Password ",
+            // gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+          );
+        }else if(_passwordController.text==pass){
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => DashboardScreen()),
+          );
+         // Navigator.of(context).push(CupertinoPageRoute(builder: (context) => DashboardScreen()));
+          Fluttertoast.showToast(
+            msg: "Login Succesfully",
+            // gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+          );
+        }else{
+          _passwordNode.requestFocus();
+          Fluttertoast.showToast(
+            msg: "Password does not exist",
+            // gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+          );
+
+
+        }
 
        // if(_formKey.currentState!.validate()) {
        //     _projectNode.requestFocus();
@@ -929,32 +992,25 @@ class _LoginScreenState extends State<LoginScreen> {
           );
           await SqfDataBase().insert(items);
         }
+        projects = await SqfDataBase().getProjects();
         projectName.clear();
         for(var i in projects) {
           projectName.add(i.ProjectName);
           //projectName.add(i.PID);
         }
       }
-
-
     }else {
-
       projectName.clear();
       for(var i in projects){
         projectName.add(i.ProjectName);
         //projectName.add(i.PID);
       }
       print(projectName);
-
-
-      
     }
-
   }
 
 
   void fetchDataUserMapping() async {
-
     UsermappingModel = await SqfDataBase().getUserMappingAll();
      if(UsermappingModel.isEmpty){
      List<UserMap>? userMapApiList = await ApiService().getUserMap();
@@ -977,11 +1033,11 @@ class _LoginScreenState extends State<LoginScreen> {
          await SqfDataBase().insertUserMapping(userMapinsert);
 
        }
+       UsermappingModel = await SqfDataBase().getUserMappingAll();
         userMappingsList.clear();
        for(var i in UsermappingModel){
          userMappingsList.add(i.QaAccess);
-
-         print(i.UID);
+        // print(i.UID);
        //  userMappingsList.clear();
        }
 
@@ -990,18 +1046,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
    }else {
      //print('have not data');
-
      for(var i in UsermappingModel){
      userMappingsList.add(i.DlrAccess);
      //print(i.UID);
      //  print(userMappingsList);
      }
-
    }
   }
 
   void getUsersListBasedOnUID() async {
-
    // List<String> userList = uniqueUserSet.toList();
     Users = await SqfDataBase().getUserData();
     if(Users.isEmpty){
@@ -1022,7 +1075,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
           await SqfDataBase().inserttblUsers(insertData);
         }
-
+        Users = await SqfDataBase().getUserData();
         userList.clear();
         for (var i in getUID) {
           List<UserModel> usersList = await SqfDataBase().getUIDmappingBasedUsers(i);
@@ -1033,11 +1086,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print(getUID);
         getUID.clear();
         print(userList);
-
-
         }
-
-
     } else
     {
       userList.clear();
@@ -1125,11 +1174,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return ApiProjects;
  }
 
-  Future<List<String?>> getProjectNamefromDevice() async{      //fetching data through api
-    List<ProjectModel> projectListApi = await SqfDataBase().getProjects();
-    List<String?> ApiProjects = projectListApi.map((apiList) => apiList.ProjectName).toList();
-    return ApiProjects;
-  }
+  // Future<List<String?>> getProjectNamefromDevice() async{
+  //   List<ProjectModel> projectListApi = await SqfDataBase().getProjects();
+  //   List<String?> ApiProjects = projectListApi.map((apiList) => apiList.ProjectName).toList();
+  //   return ApiProjects;
+  // }
 
 
 

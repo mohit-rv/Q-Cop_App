@@ -72,5 +72,11 @@ class DatabaseHandler {
     }
   }
 
+  // Future<Database> createLoginTable() async{
+  //   final Database db = await initializedDB();
+  //   await db.execute("CREATE TABLE tblProject (PrimaryKey INTEGER PRIMARY KEY AUTOINCREMENT,PID INTEGER,ProjectCode TEXT,ProjectName TEXT,ProjectDescription TEXT,Status BOOLEAN)");
+  //   return db;
+  // }
+
 
 }

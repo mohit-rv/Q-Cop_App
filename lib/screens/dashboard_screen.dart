@@ -10,6 +10,7 @@ import 'package:qcop/screens/ehs_screens/ehs_common_screen.dart';
 import 'package:qcop/screens/material_screens/mat_common_screen.dart';
 import 'package:qcop/screens/nc_screens/nc_common_screen.dart';
 import 'package:qcop/screens/note_screen.dart';
+import 'package:qcop/screens/pm_screens/pm_common_screen.dart';
 import 'package:qcop/screens/qa_screens/qa_common_screen.dart';
 import 'package:qcop/screens/wp_screens/wp_common_screen.dart';
 
@@ -334,7 +335,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               } else if (taskLists[index]['title'].toString() == "Non\nConformance") {
                 Navigator.of(context).push(CupertinoPageRoute(builder: (context) => NCCommonScreen()));
               } else if(taskLists[index]['title'].toString() == 'Project\nManagement') {
-              //  Navigator.of(context).push(CupertinoPageRoute(builder: (context) => ))
+                Navigator.of(context).push(CupertinoPageRoute(builder: (context) => PMCommonScreen()));
               } else if (taskLists[index]['title'].toString() == "Material") {
                 Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MatCommonScreen()));
               } else if (taskLists[index]['title'].toString()== "Communication") {

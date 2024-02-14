@@ -6,6 +6,7 @@ import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 import 'package:qcop/screens/edit_profile.dart';
 import 'package:qcop/screens/login_screen.dart';
 import 'package:qcop/screens/not_setting_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../resources/resources.dart';
 import 'faq_screen.dart';
@@ -23,6 +24,19 @@ class DrawerW extends StatefulWidget {
 class _DrawerWState extends State<DrawerW> {
 
   late YYDialog logoutDialoge;
+
+
+  void _logout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', false);
+
+    print('User logout');
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+          (route) => false, // This will remove all routes from the stack
+    );
+  }
 
   //File? selectedImage;
 
@@ -554,7 +568,6 @@ class _DrawerWState extends State<DrawerW> {
 
                   InkWell(
                     onTap: () {
-
                       logoutDialoge = YYDialogConfirm(context);
                       logoutDialoge.show();
                     },
@@ -584,7 +597,7 @@ class _DrawerWState extends State<DrawerW> {
 
                           InkWell(
                             onTap: (){
-
+                              //_logout(context);
                             },
                             child: Container(
                                 margin: EdgeInsets.only(left: 12,),
@@ -752,7 +765,8 @@ class _DrawerWState extends State<DrawerW> {
 
                   InkWell(
                     onTap: (){
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
+                      _logout(context);
+                      // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                     },
                     child: Container(
