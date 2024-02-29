@@ -29,6 +29,8 @@ class _DrawerWState extends State<DrawerW> {
   void _logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isLoggedIn', false);
+    prefs.setBool('isListDownloaded', false);
+    prefs.remove('ProjectName');
 
     print('User logout');
     Navigator.pushAndRemoveUntil(

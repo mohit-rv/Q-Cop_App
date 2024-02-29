@@ -20,6 +20,7 @@ import 'package:qcop/local_database/models/level4_model.dart';
 import 'package:qcop/local_database/models/level6_model.dart';
 import 'package:qcop/local_database/models/qa_level1_model.dart';
 import 'package:qcop/resources/resources.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../api_service/response/level3_response_model.dart';
 
@@ -27,6 +28,7 @@ class QALocationScreen extends StatefulWidget {
 
 
   late ValueChanged<bool> onChange;
+  //var pid;
 
   QALocationScreen({super.key, required this.onChange});
 
@@ -43,14 +45,29 @@ class _QALocationScreenState extends State<QALocationScreen> {
   bool opt5isSelected= false;
   bool opt6isSelected= false;
 
-
+  int pid = 1;
   List<QAlevel1Model> level1List = [];
 
   int visibleFields = 1;
   List<TextEditingController> controllers = List.generate(6, (_) => TextEditingController());
   List<dynamic> optionList = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"];
 
+  late int retrievedPid;
+  Future<void> retrieveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    retrievedPid= prefs.getInt("storedPid")!;
+    print('retrievedPid: $retrievedPid');
+  }
+//how to skip screen in flutter
 
+  getDataonPID( Pid, List<QAlevel1Model> data) {
+    for(var i in data){
+      if(i.pid==Pid){
+         print('data: $retrievedPid');
+      }
+    }
+    getLocation1Field();
+  } // how can i use only thro
 
   List<Map<String, dynamic>> fieldLists = [
     {"selectedValue" : "Level 1", "lists" : ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"],"isSelected": true},
@@ -127,13 +144,12 @@ class _QALocationScreenState extends State<QALocationScreen> {
   ];
 
   FocusNode _searchNode = FocusNode();
-
+//how to navigate list from one screen to other screen
 
   void fetchData() async {
     ApiService apiService = ApiService();
-    int prjID = 1;
     try {
-      List<Level6ResponseModel>? data = await apiService.getLevel6(prjID);
+      List<Level6ResponseModel>? data = await apiService.getLevel6(retrievedPid);
       if(data!=null){
         for(var i in data ) {
           print('level5Name: ${i.level6Name}');
@@ -146,11 +162,10 @@ class _QALocationScreenState extends State<QALocationScreen> {
       print('Error: $e');
     }
   }
-
   void getLocation1Field() async{
-    level1List = await SqfDataBase().getlevel1data();
+    level1List = (await SqfDataBase().getlevel1data())!;
     if(level1List.isEmpty){
-      List<Qalevel>? levelList =await ApiService().getQAlevel1(2);
+      List<Qalevel>? levelList =await ApiService().getQAlevel1(retrievedPid);
       if(levelList!=null){
         for(var i in levelList){
           QAlevel1Model level1Data = QAlevel1Model(
@@ -178,7 +193,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
   void getLocation2Field() async{
     List<Level2Model> level2List = await SqfDataBase().getLevel2Data();
     if(level2List.isEmpty){
-      List<Level2Response>? level2Response = await ApiService().getLevel2(2);
+      List<Level2Response>? level2Response = await ApiService().getLevel2(retrievedPid);
       if(level2Response!=null){
         for(var i in level2Response){
           Level2Model level2Data = Level2Model(
@@ -204,7 +219,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
   void getLocation3Field() async{
      List<Level3Model> Level3Data = await SqfDataBase().getLevel3DModel();
      if(Level3Data.isEmpty){
-       List<level3Response>? Level3Response = await ApiService().getLevel3(1);
+       List<level3Response>? Level3Response = await ApiService().getLevel3(retrievedPid);
        if(Level3Response!=null){
          for(var i in Level3Response){
            Level3Model level3Data = Level3Model(
@@ -229,7 +244,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
   void getLoction4Field() async{
     List<Level4Model> level4List = await SqfDataBase().getLevel4Model();
     if(level4List.isEmpty){
-      List<Level4ResponseModel>? level4Response = await ApiService().getLevel4(2);
+      List<Level4ResponseModel>? level4Response = await ApiService().getLevel4(retrievedPid);
       if(level4Response!= null){
         for(var i in level4Response){
           Level4Model level4Data = Level4Model(
@@ -253,7 +268,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
   void getLocation5Field() async{
     List<Level5Model> level5List = await SqfDataBase().getLevel5Model();
     if(level5List.isEmpty){
-      List<Level5ResponseModel>? level5Response = await ApiService().getLevel5(2);
+      List<Level5ResponseModel>? level5Response = await ApiService().getLevel5(retrievedPid);
       if(level5Response!=null){
         for(var i in level5Response){
           Level5Model level5Data = Level5Model(
@@ -279,7 +294,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
   void getLocation6Field()  async{
     List<Level6Model> level6List = await SqfDataBase().getLevel6Model();
     if(level6List.isEmpty){
-      List<Level6ResponseModel>? Level6Response = await ApiService().getLevel6(1);
+      List<Level6ResponseModel>? Level6Response = await ApiService().getLevel6(retrievedPid);
       if(Level6Response!=null){
         for(var i in Level6Response){
            Level6Model Level6Data = Level6Model(
@@ -302,13 +317,14 @@ class _QALocationScreenState extends State<QALocationScreen> {
 
   @override
   void initState() {
-    getLocation1Field();
-    getLocation2Field();
-    getLocation3Field();
-    getLoction4Field();
-    getLocation5Field();
-    getLocation6Field();
-    fetchData();
+    // retrieveData();
+    // getLocation1Field();
+    // getLocation2Field();
+    // getLocation3Field();
+    // getLoction4Field();
+    // getLocation5Field();
+    // getLocation6Field();
+    // fetchData();
     _searchController = TextEditingController();
     super.initState();
   }

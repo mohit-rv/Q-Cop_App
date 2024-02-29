@@ -110,13 +110,7 @@ class _DLRCommonScreenState extends State<DLRCommonScreen> {
                 //   mainAxisSpacing: 11
               ),
               itemBuilder: (context, index)
-              {
-                // for(var i=0; i<gridList.length; i++){
-                //   int n;
-                //
-                // }
-
-                return
+              {return
                   getGridItems(index);
               },
               itemCount: gridList.length,
@@ -130,13 +124,7 @@ class _DLRCommonScreenState extends State<DLRCommonScreen> {
   }
 
   getGridItems(int index){
-    // for(var i=0; i<gridList.length; i++){
-    //   int n;
-    //
-    // }
-
-    return
-      Container(
+    return Container(
         //  padding: EdgeInsets.all(12),
         margin: EdgeInsets.only(top: 30,right: 12,left: 12),
         width: 163,
@@ -275,8 +263,6 @@ class _DLRCommonScreenState extends State<DLRCommonScreen> {
               margin: EdgeInsets.only(bottom: 5,top: 0),
               child: Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                 // if(gridList.length != index-1)
-              //    if(currentIndex! < gridList.length)
 
                   for (var n= 0; n< 3; n++)  buildIndicator(gridList[index]['mov'] == n)
 
@@ -340,7 +326,6 @@ class _DLRCommonScreenState extends State<DLRCommonScreen> {
       ),
     );
   }
-
 
 
 }

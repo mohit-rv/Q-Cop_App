@@ -9,10 +9,9 @@ import 'package:qcop/api_service/response/level5_response_model.dart';
 import 'package:qcop/api_service/response/level6_response_model.dart';
 import 'package:qcop/api_service/response/project_list_response_model.dart';
 import 'package:qcop/api_service/response/qa_level1_responese_model.dart';
+import 'package:qcop/api_service/response/tap_id.dart';
 import 'package:qcop/api_service/response/users_table_list.dart';
 import 'package:qcop/api_service/utils.dart';
-import 'package:qcop/local_database/database.dart';
-import 'package:qcop/local_database/models/project_models.dart';
 
 
 
@@ -29,6 +28,7 @@ class ApiService {
   static String LocLevel4EndPoint = 'GetLevel4';
   static String LocLevel5EndPoint = 'GetLevel5';
   static String LocLevel6EndPoint = 'GetLevel6';
+  static String TapIDEndPoint = 'GetUserTabID';
 
 
 
@@ -182,6 +182,23 @@ class ApiService {
     }else {
       return null;
     }
+      }
+
+      Future<List<UserTapID>?> getTapID(int uid,int pid) async{
+      List<UserTapID> tapList = [];
+      final response = await http.get(Uri.parse('${Constants.apiUrl+ TapIDEndPoint}?UserID=$uid&PrjID=$pid'));
+      print('response: $response');
+      var data = jsonDecode(response.body.toString());
+      if(response.statusCode==200){
+        for(var i in data){
+          tapList.add(UserTapID.fromJson(i));
+          print(i);
+        }
+        print('$tapList');
+        return tapList;
+      }else {
+        return null;
+      }
       }
 
 

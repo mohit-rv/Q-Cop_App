@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:qcop/screens/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() {
+void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
-
+  await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 

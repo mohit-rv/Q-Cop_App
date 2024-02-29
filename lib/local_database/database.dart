@@ -270,9 +270,39 @@ class SqfDataBase {
     });
   }
 
-  Future<List<QAlevel1Model>> getlevel1data() async{
+
+  Future<List<ProjectModel>> getProjcteNameOnPID(int pid) async{
+    var dbClient = await db;
+    List<Map<String, dynamic>> maps = await dbClient!.query('tblProject', where: 'PID=?',whereArgs: [pid]);
+    return List.generate(maps.length, (index) {
+      return ProjectModel(
+        PID: maps[index]['PID'],
+        ProjectCode: maps[index]['ProjectCode'],
+        ProjectName: maps[index]['ProjectName'],
+        ProjectDescription: maps[index]['ProjectDescription'],
+        Status: maps[index]['Status'],
+      );
+    });
+  }
+
+  Future<List<QAlevel1Model>?> getlevel1data() async{
     var dbClient = await db;
     List<Map<String, dynamic>> maps = await dbClient!.query('tblLevel1',
+     // where: "pid=?", whereArgs: [pid]
+    );
+      return List.generate(maps.length, (index) {
+        return QAlevel1Model(
+            level1ID: maps[index]['level1ID'],
+            pid: maps[index]['pid'],
+            level1Name: maps[index]['level1Name']
+        );
+      });
+  }
+
+  Future<List<QAlevel1Model>?> getlevel1dataByPId(int pid) async{
+    var dbClient = await db;
+    List<Map<String, dynamic>> maps = await dbClient!.query('tblLevel1',
+       where: "pid=?", whereArgs: [pid]
     );
     return List.generate(maps.length, (index) {
       return QAlevel1Model(

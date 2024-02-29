@@ -49,8 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      //appBar: AppBar(),
-
+      appBar: AppBar(),
    drawer: DrawerW(),
       body: Stack(
         children: [
@@ -467,9 +466,5 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
-
-
-
 
 }
