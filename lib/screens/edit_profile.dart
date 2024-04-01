@@ -139,8 +139,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         decoration: ShapeDecoration(
                           image: selectedImage != null ?
                               DecorationImage(image: FileImage(selectedImage!),fit:  BoxFit.cover) :
-                                  DecorationImage(image: AssetImage(Resources.updateimgeuser),fit:  BoxFit.cover)
-                                  ,
+                              DecorationImage(image: AssetImage(Resources.updateimgeuser),fit:  BoxFit.cover),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60))
                         ),
                       ),

@@ -44,7 +44,7 @@ class _QACommonScreenState extends State<QACommonScreen> {
       appBar: getAppBar(),
       body: Stack(
         children: [
-          getSelectOptions(),
+          getSelectOptions(),   //icons
           Container(
             margin:
                 EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
@@ -56,7 +56,7 @@ class _QACommonScreenState extends State<QACommonScreen> {
               ),
               color: Colors.white,
             ),
-            child: Container(
+            child: Container(         //white body screen
               color: Colors.white,
               margin: EdgeInsets.only(top: 30),
               child: isLocSelected ? QALocationScreen(onChange: onChange,) :

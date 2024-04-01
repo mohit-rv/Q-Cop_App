@@ -315,6 +315,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
     }
   }
 
+
   @override
   void initState() {
     // retrieveData();
@@ -470,7 +471,7 @@ class _QALocationScreenState extends State<QALocationScreen> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

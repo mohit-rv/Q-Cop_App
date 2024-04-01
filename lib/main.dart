@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qcop/screens/dashboard_screen.dart';
 import 'package:qcop/screens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: SplashScreen(),
+      //home: DashboardScreen(),
     );
   }
 }
